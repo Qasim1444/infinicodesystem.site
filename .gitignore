@@ -1,10 +1,13 @@
 # Nuxt dev/build outputs
-.output
-.data
 .nuxt
 .nitro
 .cache
-dist
+
+# ❌ DO NOT ignore .output if you want to deploy static build via git
+# .output   <-- REMOVE or comment this
+
+# If you want to ignore only server build (optional)
+.output/server
 
 # Node dependencies
 node_modules
@@ -13,12 +16,15 @@ node_modules
 logs
 *.log
 
+# Build fallback (older Nuxt)
+dist
+
 # Misc
 .DS_Store
 .fleet
 .idea
 
-# Local env files
+# Env files
 .env
 .env.*
 !.env.example
