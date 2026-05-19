@@ -54,12 +54,36 @@ const form = reactive({
 })
 
 const submitForm = async () => {
-  alert('Thank you! We will contact you soon. (Demo)')
-  form.name = ''
-  form.email = ''
-  form.subject = ''
-  form.message = ''
-  form.subscribe = false
+  try {
+    const response = await fetch('/api/contact', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      },
+      body: JSON.stringify({
+        name: form.name,
+        email: form.email,
+        subject: form.subject,
+        message: form.message,
+        subscribe: form.subscribe
+      })
+    })
+
+    if (response.ok) {
+      alert('Thank you! We will contact you soon.')
+      form.name = ''
+      form.email = ''
+      form.subject = ''
+      form.message = ''
+      form.subscribe = false
+    } else {
+      const data = await response.json()
+      alert(data.message || 'Failed to send message. Please try again.')
+    }
+  } catch (error) {
+    alert('An error occurred. Please try again later.')
+  }
 }
 
 const subscribeNewsletter = async () => {
@@ -69,7 +93,7 @@ const subscribeNewsletter = async () => {
   }
 
   try {
-    const response = await fetch('http://127.0.0.1:8000/api/subscribe', {
+    const response = await fetch('/api/subscribe', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
