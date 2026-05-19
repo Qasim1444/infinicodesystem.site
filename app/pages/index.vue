@@ -254,7 +254,7 @@ const subscribe = async () => {
   if (!email.value) return
   subscribing.value = true
   try {
-    await $fetch('https://backend.infinicodesystem.site/api/v1/subscribe', {
+    await $fetch('http://127.0.0.1:8000/api/v1/subscribe', {
       method: 'POST',
       body: { email: email.value }
     })

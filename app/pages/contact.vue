@@ -25,15 +25,10 @@
         <label for="subscribe" class="text-zinc-400 cursor-pointer">Subscribe to our newsletter</label>
       </div>
 
-      <button type="submit"
-        class="w-full bg-violet-600 hover:bg-violet-700 py-5 rounded-2xl text-lg font-medium transition">
-        Send Message
-      </button>
-
-      <button v-if="form.subscribe" type="button" @click="subscribeNewsletter"
-        class="w-full bg-zinc-800 hover:bg-zinc-700 py-3 rounded-2xl text-sm font-medium transition">
-        Subscribe to Newsletter
-      </button>
+       <button type="submit"
+         class="w-full bg-violet-600 hover:bg-violet-700 py-5 rounded-2xl text-lg font-medium transition">
+         Send Message
+       </button>
     </form>
 
     <div class="mt-16 text-center text-zinc-400">
@@ -54,62 +49,35 @@ const form = reactive({
 })
 
 const submitForm = async () => {
-  try {
-    const response = await fetch('/api/contact', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-      },
-      body: JSON.stringify({
-        name: form.name,
-        email: form.email,
-        subject: form.subject,
-        message: form.message,
-        subscribe: form.subscribe
-      })
-    })
+   try {
+     const response = await fetch('https://backend.infinicodesystem.site/api/contact', {
+       method: 'POST',
+       headers: {
+         'Content-Type': 'application/json',
+         'Accept': 'application/json',
+       },
+       body: JSON.stringify({
+         name: form.name,
+         email: form.email,
+         subject: form.subject,
+         message: form.message,
+         subscribe: form.subscribe
+       })
+     })
 
-    if (response.ok) {
-      alert('Thank you! We will contact you soon.')
-      form.name = ''
-      form.email = ''
-      form.subject = ''
-      form.message = ''
-      form.subscribe = false
-    } else {
-      const data = await response.json()
-      alert(data.message || 'Failed to send message. Please try again.')
-    }
-  } catch (error) {
-    alert('An error occurred. Please try again later.')
-  }
-}
-
-const subscribeNewsletter = async () => {
-  if (!form.email) {
-    alert('Please enter your email address first.')
-    return
-  }
-
-  try {
-    const response = await fetch('/api/subscribe', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-      },
-      body: JSON.stringify({ email: form.email })
-    })
-
-    if (response.ok) {
-      alert('Successfully subscribed to our newsletter!')
-    } else {
-      const data = await response.json()
-      alert(data.message || 'Subscription failed. Please try again.')
-    }
-  } catch (error) {
-    alert('An error occurred. Please try again later.')
-  }
-}
+     if (response.ok) {
+       alert('Thank you! We will contact you soon.')
+       form.name = ''
+       form.email = ''
+       form.subject = ''
+       form.message = ''
+       form.subscribe = false
+     } else {
+       const data = await response.json()
+       alert(data.message || 'Failed to send message. Please try again.')
+     }
+   } catch (error) {
+     alert('An error occurred. Please try again later.')
+   }
+ }
 </script>
