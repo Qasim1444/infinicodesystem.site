@@ -20,6 +20,6 @@
 
 <script setup lang="ts">
 const { data: posts, pending, error } = await useAsyncData('all-posts', () =>
-  $fetch('http://localhost:8000/api/v1/posts')
+  $fetch('https://backend.infinicodesystem.site/api/v1/posts')
 )
 </script>

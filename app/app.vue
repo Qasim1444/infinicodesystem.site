@@ -9,8 +9,11 @@
 
 <script setup>
 useHead({
-  script: [{ src: 'https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4', defer: true }],
-  title: 'Agency — Creative Digital Studio',
+  title: 'infinicodesystem.site - Modern Digital Agency ',
   meta: [{ name: 'description', content: 'Modern Digital Agency & Blog' }]
 })
 </script>
+
+<style global lang="postcss">
+@import "tailwindcss";
+</style>

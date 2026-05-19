@@ -81,7 +81,7 @@ const replyForm = reactive({
 
 const toggleLike = async () => {
   try {
-    const response = await fetch(`http://localhost:8000/api/v1/comments/${props.comment.id}/like`, { method: 'POST' });
+    const response = await fetch(`https://backend.infinicodesystem.site/api/v1/comments/${props.comment.id}/like`, { method: 'POST' });
     if (!response.ok) throw new Error('Network response was not ok');
     const data = await response.json();
     props.comment.likes_count = data.likes_count;
@@ -94,7 +94,7 @@ const toggleLike = async () => {
 const submitReply = async () => {
   submitting.value = true
   try {
-    const response = await fetch(`http://localhost:8000/api/v1/comments/${props.comment.id}/reply`, {
+    const response = await fetch(`https://backend.infinicodesystem.site/api/v1/comments/${props.comment.id}/reply`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

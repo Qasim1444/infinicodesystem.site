@@ -192,7 +192,7 @@
 
 <script setup lang="ts">
 const { data: latestPosts, pending, error } = await useAsyncData('latest-posts', () =>
-  $fetch('http://localhost:8000/api/v1/posts')
+  $fetch('https://backend.infinicodesystem.site/api/v1/posts')
 )
 
 // Static Data
@@ -254,7 +254,7 @@ const subscribe = async () => {
   if (!email.value) return
   subscribing.value = true
   try {
-    await $fetch('http://localhost:8000/api/v1/subscribe', {
+    await $fetch('https://backend.infinicodesystem.site/api/v1/subscribe', {
       method: 'POST',
       body: { email: email.value }
     })

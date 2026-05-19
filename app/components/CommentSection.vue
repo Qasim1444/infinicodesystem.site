@@ -57,7 +57,7 @@ const submitting = ref(false)
 
 const loadComments = async () => {
   try {
-    const data = await $fetch(`http://localhost:8000/api/v1/comments?post_id=${props.postId}`)
+    const data = await $fetch(`https://backend.infinicodesystem.site/api/v1/comments?post_id=${props.postId}`)
     comments.value = Array.isArray(data) ? data : [data] // Ensure comments is always an array
   } catch (e) {
     console.error(e)

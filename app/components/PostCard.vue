@@ -3,7 +3,7 @@
     <div class="overflow-hidden rounded-3xl aspect-video bg-zinc-800 relative">
       <img 
         v-if="post.image"
-        :src="`http://localhost:8000/storage/${post.image}`" 
+        :src="`https://backend.infinicodesystem.site/storage/${post.image}`" 
         class="w-full h-full object-cover group-hover:scale-105 transition duration-500"
         alt=""
       >

@@ -15,7 +15,7 @@
       <!-- Image -->
       <img 
         v-if="post.image"
-        :src="`http://localhost:8000/storage/${post.image}`" 
+        :src="`https://backend.infinicodesystem.site/storage/${post.image}`" 
         class="w-full h-96 object-cover rounded-3xl mb-10"
         alt="Featured image"
       >
@@ -58,6 +58,6 @@
 const route = useRoute()
 
 const { data: post, pending, error, refresh } = await useAsyncData(`post-${route.params.slug}`, () =>
-  $fetch(`http://localhost:8000/api/v1/posts/${route.params.slug}`)
+  $fetch(`https://backend.infinicodesystem.site/api/v1/posts/${route.params.slug}`)
 )
 </script>
