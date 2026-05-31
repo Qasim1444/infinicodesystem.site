@@ -1,12 +1,12 @@
 <template>
   <NuxtLink :to="`/blog/${post.slug}`" class="group block">
     <div class="overflow-hidden rounded-3xl aspect-video bg-zinc-800 relative">
-      <img 
-        v-if="post.image"
-        :src="`https://backend.infinicodesystem.site/storage/${post.image}`" 
-        class="w-full h-full object-cover group-hover:scale-105 transition duration-500"
-        alt=""
-      >
+       <img 
+         v-if="post.image"
+         :src="`https://api.infinicodesystem.site/storage/${post.image}`" 
+         class="w-full h-full object-cover group-hover:scale-105 transition duration-500"
+         alt=""
+       >
       <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
       
       <div class="absolute bottom-6 left-6 right-6">

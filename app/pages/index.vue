@@ -192,7 +192,7 @@
 
 <script setup lang="ts">
 const { data: latestPosts, pending, error } = await useAsyncData('latest-posts', () =>
-  $fetch('https://backend.infinicodesystem.site/api/v1/posts')
+  $fetch('https://api.infinicodesystem.site/api/v1/posts')
 )
 
 // Static Data
@@ -253,11 +253,11 @@ const subscribing = ref(false)
 const subscribe = async () => {
   if (!email.value) return
   subscribing.value = true
-  try {
-    await $fetch('https://backend.infinicodesystem.site/api/v1/subscribe', {
-      method: 'POST',
-      body: { email: email.value }
-    })
+   try {
+     await $fetch('https://api.infinicodesystem.site/api/v1/subscribe', {
+       method: 'POST',
+       body: { email: email.value }
+     })
     alert('Successfully subscribed to our newsletter!')
     email.value = ''
   } catch (e: any) {

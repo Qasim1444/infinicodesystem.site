@@ -19,7 +19,23 @@
 </template>
 
 <script setup lang="ts">
+useHead({
+  title: 'Blog — infinicodesystem.site',
+  meta: [
+    {
+      name: 'description',
+      content: 'Read the latest agency and web development insights from infinicodesystem.site.',
+    },
+  ],
+  link: [
+    {
+      rel: 'canonical',
+      href: 'https://infinicodesystem.site/blog',
+    },
+  ],
+})
+
 const { data: posts, pending, error } = await useAsyncData('all-posts', () =>
-  $fetch('https://backend.infinicodesystem.site/api/v1/posts')
+  $fetch('https://api.infinicodesystem.site/api/v1/posts')
 )
 </script>

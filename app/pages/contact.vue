@@ -50,7 +50,7 @@ const form = reactive({
 
 const submitForm = async () => {
    try {
-     const response = await fetch('https://backend.infinicodesystem.site/api/contact', {
+      const response = await fetch('https://api.infinicodesystem.site/api/v1/contact', {
        method: 'POST',
        headers: {
          'Content-Type': 'application/json',

@@ -15,5 +15,4 @@ useHead({
 </script>
 
 <style global lang="postcss">
-@import "tailwindcss";
 </style>
