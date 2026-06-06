@@ -59,10 +59,12 @@
       </div>
 
       <!-- Content -->
-      <div
-        class="content-body"
-        v-html="sanitizeHtml(post.content)"
-      ></div>
+      <ClientOnly>
+        <div
+          class="content-body"
+          v-html="sanitizeHtml(post.content)"
+        ></div>
+      </ClientOnly>
 
       <!-- Tags -->
       <div
@@ -184,9 +186,13 @@ useHead(() => {
 /**
  * Sanitize HTML content to prevent XSS attacks
  * Allows safe HTML tags commonly used in blog content
+ * Only runs on client-side (SSR-safe)
  */
 const sanitizeHtml = (html: string) => {
   if (!html) return ''
+  
+  // Check if we're on the server (document doesn't exist in Node.js environment)
+  if (process.server || typeof document === 'undefined') return html
   
   // Create a temporary DOM element
   const temp = document.createElement('div')
