@@ -59,10 +59,12 @@
       </div>
 
       <!-- Content -->
-      <div
-        class="content-body prose prose-zinc prose-invert text-lg leading-relaxed"
-        v-html="post.content"
-      ></div>
+      <ClientOnly>
+        <div
+          class="content-body"
+          v-html="sanitizeHtml(post.content)"
+        ></div>
+      </ClientOnly>
 
       <!-- Tags -->
       <div
@@ -180,6 +182,72 @@ useHead(() => {
     ]
   }
 })
+
+/**
+ * Sanitize HTML content to prevent XSS attacks
+ * Allows safe HTML tags commonly used in blog content
+ * Only runs on client-side (SSR-safe)
+ */
+const sanitizeHtml = (html: string) => {
+  if (!html) return ''
+  
+  // Check if we're on the server (document doesn't exist in Node.js environment)
+  if (process.server || typeof document === 'undefined') return html
+  
+  // Create a temporary DOM element
+  const temp = document.createElement('div')
+  temp.innerHTML = html
+  
+  // List of allowed tags
+  const allowedTags = new Set([
+    'P', 'BR', 'STRONG', 'B', 'EM', 'I', 'U', 'S',
+    'H1', 'H2', 'H3', 'H4', 'H5', 'H6',
+    'UL', 'OL', 'LI', 'DL', 'DT', 'DD',
+    'BLOCKQUOTE', 'CODE', 'PRE',
+    'A', 'IMG', 'TABLE', 'THEAD', 'TBODY', 'TH', 'TR', 'TD',
+    'HR', 'DIV', 'SPAN', 'SECTION', 'ARTICLE'
+  ])
+  
+  // Allowed attributes
+  const allowedAttributes = {
+    'A': ['href', 'title', 'target'],
+    'IMG': ['src', 'alt', 'title', 'width', 'height'],
+    'DIV': ['class'],
+    'SPAN': ['class'],
+    'TABLE': ['class'],
+    '*': ['class', 'id']
+  }
+  
+  const walk = (node: Node) => {
+    if (node.nodeType === Node.ELEMENT_NODE) {
+      const element = node as Element
+      
+      if (!allowedTags.has(element.tagName)) {
+        const fragment = document.createDocumentFragment()
+        while (element.firstChild) {
+          fragment.appendChild(element.firstChild)
+        }
+        element.parentNode?.replaceChild(fragment, element)
+        return
+      }
+      
+      // Remove disallowed attributes
+      const allowedAttrs = allowedAttributes[element.tagName] || allowedAttributes['*'] || []
+      Array.from(element.attributes).forEach(attr => {
+        if (!allowedAttrs.includes(attr.name.toLowerCase())) {
+          element.removeAttribute(attr.name)
+        }
+      })
+      
+      Array.from(element.childNodes).forEach(walk)
+    } else if (node.nodeType === Node.COMMENT_NODE) {
+      node.parentNode?.removeChild(node)
+    }
+  }
+  
+  walk(temp)
+  return temp.innerHTML
+}
 </script>
 
 <style scoped>

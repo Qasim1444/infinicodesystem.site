@@ -5,6 +5,7 @@ const siteUrl = process.env.SITE_URL || 'https://infinicodesystem.site'
 export default defineNuxtConfig({
   ssr: true,
 
+<<<<<<< HEAD
   modules: ['@nuxtjs/robots', '@nuxtjs/sitemap'],
 
   css: ['~/assets/css/main.css'],
@@ -13,6 +14,22 @@ export default defineNuxtConfig({
     plugins: {
       tailwindcss: {},
       autoprefixer: {},
+=======
+  return {
+    ssr: true,
+    modules: ['@nuxtjs/robots', '@nuxtjs/sitemap'],
+    css: ['~/assets/css/main.css'],
+    runtimeConfig: {
+      public: {
+        apiBase: 'https://api.infinicodesystem.site/api/v1',
+      },
+    },
+    postcss: {
+      plugins: {
+        tailwindcss: {},
+        autoprefixer: {},
+      },
+>>>>>>> 7da49c13202f9a9ce49528064a5cd45b84c2fcd3
     },
   },
 
