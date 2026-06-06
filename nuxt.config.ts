@@ -25,6 +25,11 @@ export default defineNuxtConfig(async () => {
     ssr: true,
     modules: ['@nuxtjs/robots', '@nuxtjs/sitemap'],
     css: ['~/assets/css/main.css'],
+    runtimeConfig: {
+      public: {
+        apiBase: 'https://api.infinicodesystem.site/api/v1',
+      },
+    },
     postcss: {
       plugins: {
         tailwindcss: {},
