@@ -1,8 +1,8 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
-const siteUrl = process.env.SITE_URL || 'https://infinicodesystem.site'
+const siteUrl = process.env.SITE_URL || 'http://127.0.0.1:3000'
 
 export default defineNuxtConfig(async () => {
-  const postsResponse = await fetch('https://api.infinicodesystem.site/api/v1/posts').catch(() => null)
+  const postsResponse = await fetch('http://127.0.0.1:8000/api/v1/posts').catch(() => null)
   const postsJson = postsResponse ? await postsResponse.json().catch(() => null) : null
   const posts = Array.isArray(postsJson) ? postsJson : postsJson?.data ?? []
   const postUrls = posts
@@ -27,7 +27,7 @@ export default defineNuxtConfig(async () => {
     css: ['~/assets/css/main.css'],
     runtimeConfig: {
       public: {
-        apiBase: 'https://api.infinicodesystem.site/api/v1',
+        apiBase: 'http://127.0.0.1:8000/api/v1',
       },
     },
     postcss: {

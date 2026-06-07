@@ -25,7 +25,7 @@
       <!-- Featured Image -->
       <img
         v-if="post.image"
-        :src="`https://api.infinicodesystem.site/storage/${post.image}`"
+        :src="`http://127.0.0.1:8000/storage/${post.image}`"
         alt="Featured Image"
         class="w-full h-96 object-cover rounded-3xl mb-10"
       >
@@ -95,7 +95,7 @@
 </template>
 
 <script setup lang="ts">
-const siteUrl = 'https://infinicodesystem.site'
+const siteUrl = 'http://127.0.0.1:8000'
 const route = useRoute()
 
 const {
@@ -107,7 +107,7 @@ const {
   `post-${route.params.slug}`,
   async () => {
     return await $fetch(
-      `https://api.infinicodesystem.site/api/v1/posts/${route.params.slug}`
+      `http://127.0.0.1:8000/api/v1/posts/${route.params.slug}`
     )
   }
 )
@@ -169,7 +169,7 @@ useHead(() => {
       {
         property: 'og:image',
         content: article.image
-          ? `https://api.infinicodesystem.site/storage/${article.image}`
+          ? `http://127.0.0.1:8000/storage/${article.image}`
           : ''
       }
     ],
@@ -205,17 +205,20 @@ const sanitizeHtml = (html: string) => {
     'UL', 'OL', 'LI', 'DL', 'DT', 'DD',
     'BLOCKQUOTE', 'CODE', 'PRE',
     'A', 'IMG', 'TABLE', 'THEAD', 'TBODY', 'TH', 'TR', 'TD',
-    'HR', 'DIV', 'SPAN', 'SECTION', 'ARTICLE'
+    'HR', 'DIV', 'SPAN', 'SECTION', 'ARTICLE', 'STYLE'
   ])
   
   // Allowed attributes
   const allowedAttributes = {
     'A': ['href', 'title', 'target'],
     'IMG': ['src', 'alt', 'title', 'width', 'height'],
-    'DIV': ['class'],
-    'SPAN': ['class'],
-    'TABLE': ['class'],
-    '*': ['class', 'id']
+    'DIV': ['class', 'style'],
+    'SPAN': ['class', 'style'],
+    'TABLE': ['class', 'style'],
+    'TD': ['style'],
+    'TH': ['style'],
+    'TR': ['style'],
+    '*': ['class', 'id', 'style']
   }
   
   const walk = (node: Node) => {
