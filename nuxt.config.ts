@@ -38,7 +38,7 @@ export default defineNuxtConfig(async () => {
      */
     runtimeConfig: {
       public: {
-        apiBase: process.env.API_BASE || 'api.infinicodesystem.site/api/v1',
+        apiBase: process.env.API_BASE || 'https://api.infinicodesystem.site/api/v1',
       },
     },
 
