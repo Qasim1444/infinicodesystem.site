@@ -44,6 +44,8 @@ const props = defineProps<{
   postId: number
 }>()
 
+const config = useRuntimeConfig()
+
 const newComment = reactive({
   post_id: props.postId,
   author_name: '',
@@ -57,7 +59,7 @@ const submitting = ref(false)
 
 const loadComments = async () => {
   try {
-    const data = await $fetch(`https://api.infinicodesystem.site/api/v1/comments?post_id=${props.postId}`)
+    const data = await $fetch(`${config.public.apiBase}/comments?post_id=${props.postId}`)
     comments.value = Array.isArray(data) ? data : [data] // Ensure comments is always an array
   } catch (e) {
     console.error(e)
@@ -67,7 +69,7 @@ const loadComments = async () => {
 const submitComment = async () => {
   submitting.value = true
   try {
-    await $fetch('https://api.infinicodesystem.site/api/v1/comments', {
+    await $fetch(`${config.public.apiBase}/comments`, {
       method: 'POST',
       body: newComment
     })

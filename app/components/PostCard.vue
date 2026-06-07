@@ -72,7 +72,7 @@
         class="absolute inset-0 rounded-3xl
                ring-1 ring-white/0 group-hover:ring-violet-500/30
                transition duration-500"
-      />
+      ></div>
 
     </div>
 

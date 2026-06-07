@@ -97,6 +97,7 @@
 <script setup lang="ts">
 const siteUrl = 'http://127.0.0.1:8000'
 const route = useRoute()
+const config = useRuntimeConfig()
 
 const {
   data: post,
@@ -107,7 +108,7 @@ const {
   `post-${route.params.slug}`,
   async () => {
     return await $fetch(
-      `http://127.0.0.1:8000/api/v1/posts/${route.params.slug}`
+      `${config.public.apiBase}/posts/${route.params.slug}`
     )
   }
 )
