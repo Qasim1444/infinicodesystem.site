@@ -42,14 +42,14 @@ useSeoMeta({
   ogTitle: 'Blog — infinicodesystem.site',
   ogDescription: 'Latest insights and tutorials.',
   ogType: 'website',
-  ogUrl: 'http://127.0.0.1:8000/blog',
+  ogUrl: 'api.infinicodesystem.site/blog',
 })
 
 useHead({
   link: [
     {
       rel: 'canonical',
-      href: 'http://127.0.0.1:8000/blog',
+      href: 'api.infinicodesystem.site/blog',
     },
   ],
 })
