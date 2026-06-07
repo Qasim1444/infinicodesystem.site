@@ -1,4 +1,5 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
+<<<<<<< HEAD
 const siteUrl = process.env.SITE_URL || 'http://127.0.0.1:3000'
 
 export default defineNuxtConfig(async () => {
@@ -20,7 +21,24 @@ export default defineNuxtConfig(async () => {
   const prerenderRoutes = posts
     .filter((post: any) => post?.slug)
     .map((post: any) => `/blog/${post.slug}`)
+=======
 
+const siteUrl = process.env.SITE_URL || 'https://infinicodesystem.site'
+
+export default defineNuxtConfig({
+  ssr: true,
+>>>>>>> c116e3694b98c75da1524cb66a950af1c1512c85
+
+<<<<<<< HEAD
+  modules: ['@nuxtjs/robots', '@nuxtjs/sitemap'],
+
+  css: ['~/assets/css/main.css'],
+
+  postcss: {
+    plugins: {
+      tailwindcss: {},
+      autoprefixer: {},
+=======
   return {
     ssr: true,
     modules: ['@nuxtjs/robots', '@nuxtjs/sitemap'],
@@ -35,41 +53,52 @@ export default defineNuxtConfig(async () => {
         tailwindcss: {},
         autoprefixer: {},
       },
+>>>>>>> 7da49c13202f9a9ce49528064a5cd45b84c2fcd3
     },
-    sitemap: {
-      hostname: siteUrl,
-      gzip: true,
-      urls: [
-        { loc: `${siteUrl}/` },
-        { loc: `${siteUrl}/about` },
-        { loc: `${siteUrl}/contact` },
-        { loc: `${siteUrl}/projects` },
-        { loc: `${siteUrl}/services` },
-        { loc: `${siteUrl}/blog` },
-        ...postUrls,
+  },
+
+  /**
+   * 🔥 Runtime API config (BEST PRACTICE)
+   */
+  runtimeConfig: {
+    public: {
+      apiBase: 'https://api.infinicodesystem.site/api/v1',
+    },
+  },
+
+  /**
+   * Sitemap (static + dynamic posts)
+   */
+  sitemap: {
+    hostname: siteUrl,
+    gzip: true,
+    urls: [
+      { loc: `${siteUrl}/` },
+      { loc: `${siteUrl}/about` },
+      { loc: `${siteUrl}/contact` },
+      { loc: `${siteUrl}/projects` },
+      { loc: `${siteUrl}/services` },
+      { loc: `${siteUrl}/blog` },
+    ],
+  },
+
+  robots: {
+    UserAgent: '*',
+    Allow: '/',
+    Sitemap: `${siteUrl}/sitemap.xml`,
+  },
+
+  app: {
+    head: {
+      link: [
+        {
+          rel: 'stylesheet',
+          href: 'https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css',
+        },
       ],
     },
-    nitro: {
-      prerender: {
-        routes: prerenderRoutes,
-      },
-    },
-    robots: {
-      UserAgent: '*',
-      Allow: '/',
-      Sitemap: `${siteUrl}/sitemap.xml`,
-    },
-    app: {
-      head: {
-        link: [
-          {
-            rel: 'stylesheet',
-            href: 'https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css',
-          },
-        ],
-      },
-    },
-    compatibilityDate: '2026-05-18',
-    devtools: { enabled: true },
-  }
+  },
+
+  compatibilityDate: '2026-05-18',
+  devtools: { enabled: true },
 })
