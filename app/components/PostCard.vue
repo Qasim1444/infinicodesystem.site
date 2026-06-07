@@ -13,7 +13,7 @@
       <!-- Image -->
       <img
         v-if="post.image"
-        :src="`api.infinicodesystem.site/storage/${post.image}`"
+        :src="`https://api.infinicodesystem.site/storage/${post.image}`"
         class="w-full h-full object-cover
                group-hover:scale-110 transition duration-700 ease-out"
         alt=""

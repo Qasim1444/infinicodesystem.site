@@ -191,9 +191,10 @@
 </template>
 
 <script setup lang="ts">
-const { data: latestPosts, pending, error } = await useAsyncData('latest-posts', () =>
-  $fetch('http://127.0.0.1:8000/api/v1/posts')
-)
+ const config = useRuntimeConfig()
+ const { data: latestPosts, pending, error } = await useAsyncData('latest-posts-home', () =>
+   $fetch(`${config.public.apiBase}/posts`)
+ )
 
 // Static Data
 const testimonials = [
@@ -254,7 +255,7 @@ const subscribe = async () => {
   if (!email.value) return
   subscribing.value = true
    try {
-     await $fetch('http://127.0.0.1:8000/api/v1/subscribe', {
+      await $fetch(`${config.public.apiBase}/subscribe`, {
        method: 'POST',
        body: { email: email.value }
      })

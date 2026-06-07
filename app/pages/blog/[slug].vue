@@ -25,7 +25,7 @@
       <!-- Featured Image -->
       <img
         v-if="post.image"
-        :src="`api.infinicodesystem.site/storage/${post.image}`"
+        :src="`https://api.infinicodesystem.site/storage/${post.image}`"
         alt="Featured Image"
         class="w-full h-96 object-cover rounded-3xl mb-10"
       >
@@ -95,7 +95,7 @@
 </template>
 
 <script setup lang="ts">
-const siteUrl = 'api.infinicodesystem.site'
+const siteUrl = 'https://api.infinicodesystem.site'
 const route = useRoute()
 const config = useRuntimeConfig()
 
@@ -169,9 +169,9 @@ useHead(() => {
 
       {
         property: 'og:image',
-        content: article.image
-          ? `api.infinicodesystem.site/storage/${article.image}`
-          : ''
+          content: article.image
+            ? `https://api.infinicodesystem.site/storage/${article.image}`
+            : ''
       }
     ],
 

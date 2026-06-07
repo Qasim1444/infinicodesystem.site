@@ -1,8 +1,8 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
-const siteUrl = process.env.SITE_URL || 'api.infinicodesystem.site'
+const siteUrl = process.env.SITE_URL || 'https://api.infinicodesystem.site'
 
 export default defineNuxtConfig(async () => {
-  const postsResponse = await fetch('api.infinicodesystem.site/api/v1/posts').catch(() => null)
+  const postsResponse = await fetch(`${siteUrl}/api/v1/posts`).catch(() => null)
   const postsJson = postsResponse ? await postsResponse.json().catch(() => null) : null
   const posts = Array.isArray(postsJson) ? postsJson : postsJson?.data ?? []
   const postUrls = posts
@@ -55,6 +55,7 @@ export default defineNuxtConfig(async () => {
         { loc: `${siteUrl}/projects` },
         { loc: `${siteUrl}/services` },
         { loc: `${siteUrl}/blog` },
+        ...postUrls,
       ],
     },
 
@@ -62,6 +63,12 @@ export default defineNuxtConfig(async () => {
       UserAgent: '*',
       Allow: '/',
       Sitemap: `${siteUrl}/sitemap.xml`,
+    },
+
+    nitro: {
+      prerender: {
+        routes: prerenderRoutes,
+      },
     },
 
     app: {
