@@ -2,7 +2,7 @@
   <Link href="/" class="logo" :class="`logo--${variant}`" aria-label="Infinicode IT Solutions — home">
     <img
       class="logo__img"
-      src="/images/infinicode-logo.png"
+      src="/storage/images/infinicode-logo.webp"
       alt="Infinicode System IT Solutions logo"
       width="38"
       height="38"

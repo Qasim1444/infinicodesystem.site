@@ -8,6 +8,9 @@
   />
 
   <article v-else class="post">
+    <Head :title="post.metaTitle || post.title">
+      <meta head-key="description" name="description" :content="post.metaDescription || post.excerpt" />
+    </Head>
     <!-- HEADER -->
     <header class="post-head">
       <div class="bg-grid" aria-hidden="true" />
@@ -105,7 +108,7 @@
 </template>
 
 <script setup>
-import { Link } from '@inertiajs/vue3'
+import { Head, Link } from '@inertiajs/vue3'
 import { computed } from 'vue'
 import AppIcon from '@/Components/ui/AppIcon.vue'
 import SectionHeading from '@/Components/ui/SectionHeading.vue'

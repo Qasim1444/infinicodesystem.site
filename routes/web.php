@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ContactController;
+use App\Support\BlogContent;
 use App\Support\SiteData;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -11,7 +12,7 @@ Route::get('/', function () {
         'featuredProjects' => SiteData::projects(),
         'stats' => SiteData::stats(),
         'clientTestimonials' => SiteData::clientTestimonials(),
-        'recentPosts' => SiteData::recentPosts(),
+        'recentPosts' => array_slice(BlogContent::posts(), 0, 3),
         'techCategories' => SiteData::techCategories(),
         'differentiators' => SiteData::differentiators(),
         'processSteps' => SiteData::processSteps(),
@@ -90,16 +91,18 @@ Route::get('/academy/{slug}', function (string $slug) {
 // Blog
 Route::get('/blog', function () {
     return Inertia::render('BlogView', [
-        'posts' => SiteData::posts(),
-        'blogCategories' => SiteData::blogCategories(),
-        'featuredPost' => SiteData::featuredPost(),
+        'posts' => BlogContent::posts(),
+        'blogCategories' => BlogContent::categories(),
+        'featuredPost' => BlogContent::featuredPost(),
     ]);
 })->name('blog');
 
 Route::get('/blog/{slug}', function (string $slug) {
+    $post = BlogContent::find($slug);
+
     return Inertia::render('BlogPostView', [
-        'post' => SiteData::getPost($slug),
-        'relatedPosts' => SiteData::relatedPosts($slug, 3),
+        'post' => $post,
+        'relatedPosts' => BlogContent::relatedPosts($slug, 3),
         'slug' => $slug,
     ]);
 })->name('blog-post');
