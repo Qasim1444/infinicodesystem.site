@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\SitemapController;
 use App\Support\BlogContent;
 use App\Support\SiteData;
 use Illuminate\Support\Facades\Route;
@@ -155,6 +156,8 @@ Route::get('/careers', function () {
 
 Route::get('/contact', [ContactController::class, 'view'])->name('contact');
 Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
+
+Route::get('/sitemap.xml', SitemapController::class)->name('sitemap');
 
 Route::fallback(function () {
     return Inertia::render('NotFoundView');

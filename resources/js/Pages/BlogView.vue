@@ -30,7 +30,6 @@
         >
           <div class="feature-post__media">
             <img :src="featuredPost.image" :alt="featuredPost.title" loading="lazy" />
-            <SampleFlag v-if="featuredPost.sample" class="feature-post__flag" />
           </div>
           <div class="feature-post__body">
             <div class="feature-post__badges">
@@ -109,7 +108,6 @@ import { Link } from '@inertiajs/vue3'
 import { ref, computed } from 'vue'
 import AppIcon from '@/Components/ui/AppIcon.vue'
 import PostCard from '@/Components/ui/PostCard.vue'
-import SampleFlag from '@/Components/ui/SampleFlag.vue'
 const { posts, blogCategories, featuredPost } = defineProps({
   posts: { type: Array, default: () => [] },
   blogCategories: { type: Array, default: () => [] },
@@ -125,17 +123,18 @@ const activeCat = ref('All')
 const newsletterEmail = ref('')
 const subscribed = ref(false)
 
-const showFeatured = computed(() => !query.value && activeCat.value === 'All')
+const showFeatured = computed(() => Boolean(featuredPost) && !query.value && activeCat.value === 'All')
 
 const matched = computed(() => {
   const q = query.value.toLowerCase()
   return posts.filter((p) => {
-    const catOk = activeCat.value === 'All' || p.category === activeCat.value
+    const postCategories = p.categories?.length ? p.categories : [p.category]
+    const catOk = activeCat.value === 'All' || postCategories.includes(activeCat.value)
     const qOk =
       !q ||
       p.title.toLowerCase().includes(q) ||
       p.excerpt.toLowerCase().includes(q) ||
-      p.category.toLowerCase().includes(q)
+      postCategories.some((category) => category.toLowerCase().includes(q))
     return catOk && qOk
   })
 })

@@ -13,6 +13,7 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use UnitEnum;
 
 class BlogPostResource extends Resource
 {
@@ -21,6 +22,10 @@ class BlogPostResource extends Resource
     protected static ?string $slug = 'posts';
 
     protected static ?string $recordTitleAttribute = 'title';
+
+    protected static string|UnitEnum|null $navigationGroup = 'Blog';
+
+    protected static ?int $navigationSort = 1;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedDocumentText;
 

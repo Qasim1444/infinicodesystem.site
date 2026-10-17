@@ -25,7 +25,7 @@
 
         <div class="post-head__meta" v-reveal>
           <Link :href="`/blog?category=${encodeURIComponent(post.category)}`" class="badge">
-            {{ post.category }}
+            {{ (post.categories?.length ? post.categories : [post.category]).join(', ') }}
           </Link>
         </div>
 

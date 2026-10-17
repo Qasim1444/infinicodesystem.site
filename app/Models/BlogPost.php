@@ -6,9 +6,12 @@ use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 #[Fillable([
-    'user_id', 'title', 'slug', 'excerpt', 'body', 'category', 'tags', 'cover_image',
+    'user_id', 'title', 'slug', 'excerpt', 'body', 'cover_image',
     'author_name', 'author_role', 'meta_title', 'meta_description', 'status',
     'is_featured', 'published_at',
 ])]
@@ -18,7 +21,6 @@ class BlogPost extends Model
     protected function casts(): array
     {
         return [
-            'tags' => 'array',
             'is_featured' => 'boolean',
             'published_at' => 'datetime',
         ];
@@ -36,24 +38,45 @@ class BlogPost extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
+    /** @return BelongsToMany<BlogCategory, $this> */
+    public function blogCategories(): BelongsToMany
+    {
+        return $this->belongsToMany(BlogCategory::class, 'blog_post_category');
+    }
+
+    /** @return BelongsToMany<BlogTag, $this> */
+    public function blogTags(): BelongsToMany
+    {
+        return $this->belongsToMany(BlogTag::class, 'blog_post_tag');
+    }
+
     /** @return array<string, mixed> */
     public function toPublicArray(): array
     {
         $date = $this->published_at ?? $this->created_at;
         $bodyBlocks = $this->bodyBlocks();
+        $this->loadMissing(['blogCategories:id,name', 'blogTags:id,name']);
+        $categories = $this->blogCategories->pluck('name')->all();
+        $tags = $this->blogTags->pluck('name')->all();
+        $image = $this->cover_image;
+
+        if (filled($image) && ! Str::startsWith($image, ['/storage/', 'http://', 'https://'])) {
+            $image = Storage::disk('public')->url($image);
+        }
 
         return [
             'slug' => $this->slug,
             'title' => $this->title,
-            'category' => $this->category,
+            'category' => $categories[0] ?? '',
+            'categories' => $categories,
             'excerpt' => $this->excerpt,
-            'image' => $this->cover_image ?: '/storage/images/blog-featured-1-1.webp',
+            'image' => $image ?: '/storage/images/blog-featured-1-1.webp',
             'author' => $this->author_name,
             'authorRole' => $this->author_role ?: 'Contributor',
             'date' => $date?->toDateString(),
             'readTime' => max(1, (int) ceil(str_word_count($this->body) / 200)),
             'featured' => $this->is_featured,
-            'tags' => $this->tags ?? [],
+            'tags' => $tags,
             'metaTitle' => $this->meta_title ?: $this->title,
             'metaDescription' => $this->meta_description ?: $this->excerpt,
             'body' => $bodyBlocks,

@@ -2,54 +2,58 @@
 
 namespace App\Support;
 
+use App\Models\BlogCategory;
 use App\Models\BlogPost;
+use Illuminate\Database\Eloquent\Builder;
 
 class BlogContent
 {
     /** @return array<int, array<string, mixed>> */
     public static function posts(): array
     {
-        $postsBySlug = [];
-
-        foreach (SiteData::posts() as $post) {
-            $postsBySlug[$post['slug']] = $post;
-        }
-
-        foreach (BlogPost::published()->orderByDesc('published_at')->get() as $post) {
-            $postsBySlug[$post->slug] = $post->toPublicArray();
-        }
-
-        $posts = array_values($postsBySlug);
-        usort($posts, static fn (array $left, array $right): int => strcmp($right['date'] ?? '', $left['date'] ?? ''));
-
-        return $posts;
+        return BlogPost::published()
+            ->with(['blogCategories:id,name', 'blogTags:id,name'])
+            ->orderByDesc('published_at')
+            ->get()
+            ->map(static fn (BlogPost $post): array => $post->toPublicArray())
+            ->all();
     }
 
     /** @return array<int, string> */
     public static function categories(): array
     {
-        $categories = array_values(array_unique(array_merge(
-            SiteData::blogCategories(),
-            BlogPost::published()->distinct()->orderBy('category')->pluck('category')->all(),
-        )));
+        $categories = BlogCategory::query()
+            ->whereHas('blogPosts', static function (Builder $query): void {
+                $query->published();
+            })
+            ->orderBy('name')
+            ->pluck('name')
+            ->all();
 
-        return array_values(array_unique(array_merge(['All'], array_filter($categories, static fn (string $category): bool => $category !== 'All'))));
+        return ['All', ...$categories];
     }
 
     /** @return array<string, mixed>|null */
     public static function featuredPost(): ?array
     {
-        $featured = BlogPost::published()->where('is_featured', true)->latest('published_at')->first();
+        $featured = BlogPost::published()
+            ->with(['blogCategories:id,name', 'blogTags:id,name'])
+            ->where('is_featured', true)
+            ->latest('published_at')
+            ->first();
 
-        return $featured?->toPublicArray() ?? SiteData::featuredPost();
+        return $featured?->toPublicArray();
     }
 
     /** @return array<string, mixed>|null */
     public static function find(string $slug): ?array
     {
-        $post = BlogPost::published()->where('slug', $slug)->first();
+        $post = BlogPost::published()
+            ->with(['blogCategories:id,name', 'blogTags:id,name'])
+            ->where('slug', $slug)
+            ->first();
 
-        return $post?->toPublicArray() ?? SiteData::getPost($slug);
+        return $post?->toPublicArray();
     }
 
     /** @return array<int, array<string, mixed>> */

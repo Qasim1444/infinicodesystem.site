@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\BlogPosts\Tables;
 
+use App\Models\BlogPost;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
@@ -20,10 +21,9 @@ class BlogPostsTable
                     ->searchable()
                     ->sortable()
                     ->wrap(),
-                TextColumn::make('category')
-                    ->badge()
-                    ->searchable()
-                    ->sortable(),
+                TextColumn::make('categories')
+                    ->state(static fn (BlogPost $record): string => $record->blogCategories->pluck('name')->implode(', '))
+                    ->badge(),
                 TextColumn::make('status')
                     ->badge()
                     ->color(fn (string $state): string => $state === 'published' ? 'success' : 'gray')

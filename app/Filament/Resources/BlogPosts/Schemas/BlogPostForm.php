@@ -2,11 +2,9 @@
 
 namespace App\Filament\Resources\BlogPosts\Schemas;
 
-use App\Models\BlogPost;
-use App\Support\SiteData;
 use Filament\Forms\Components\DateTimePicker;
+use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Select;
-use Filament\Forms\Components\TagsInput;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
@@ -48,27 +46,34 @@ class BlogPostForm
                             ->rows(18)
                             ->columnSpanFull()
                             ->helperText('Supports paragraphs, ## headings, - bullet lists, and > quotations.'),
-                        Select::make('category')
-                            ->options(fn (): array => collect(self::categories())
-                                ->mapWithKeys(static fn (string $category): array => [$category => $category])
-                                ->all())
+                        Select::make('blogCategories')
+                            ->label('Categories')
+                            ->multiple()
+                            ->relationship(name: 'blogCategories', titleAttribute: 'name')
                             ->searchable()
+                            ->preload()
                             ->native(false)
-                            ->required()
-                            ->createOptionForm([
-                                TextInput::make('category')
-                                    ->label('Category name')
-                                    ->required()
-                                    ->maxLength(100),
-                            ])
-                            ->createOptionUsing(static fn (array $data): string => trim($data['category'])),
-                        TagsInput::make('tags')
-                            ->suggestions(fn (): array => self::tags())
-                            ->placeholder('Add tags'),
-                        TextInput::make('cover_image')
-                            ->maxLength(2048)
+                            ->required(),
+                        Select::make('blogTags')
+                            ->label('Tags')
+                            ->multiple()
+                            ->relationship(name: 'blogTags', titleAttribute: 'name')
+                            ->searchable()
+                            ->preload()
+                            ->native(false)
+                            ->placeholder('Select tags'),
+                        FileUpload::make('cover_image')
+                            ->image()
+                            ->acceptedFileTypes(['image/webp'])
+                            ->disk('public')
+                            ->directory('images/blog')
+                            ->visibility('public')
+                            ->maxSize(5120)
+                            ->formatStateUsing(static fn (?string $state): ?string => filled($state) && str_starts_with($state, '/storage/')
+                                ? substr($state, strlen('/storage/'))
+                                : $state)
                             ->columnSpanFull()
-                            ->helperText('Use a WebP image path from public storage, for example /storage/images/article.webp.'),
+                            ->helperText('Browse to upload a WebP cover image. Images are stored in public storage.'),
                     ]),
                 Section::make('Publishing')
                     ->columns(2)
@@ -102,32 +107,5 @@ class BlogPostForm
                             ->rows(3),
                     ]),
             ]);
-    }
-
-    /** @return array<int, string> */
-    private static function categories(): array
-    {
-        return collect(SiteData::blogCategories())
-            ->merge(BlogPost::query()->distinct()->pluck('category'))
-            ->reject(static fn (string $category): bool => $category === 'All')
-            ->filter()
-            ->unique()
-            ->sort()
-            ->values()
-            ->all();
-    }
-
-    /** @return array<int, string> */
-    private static function tags(): array
-    {
-        return collect(SiteData::posts())
-            ->pluck('tags')
-            ->flatten()
-            ->merge(BlogPost::query()->get(['tags'])->flatMap(static fn (BlogPost $post): array => $post->tags ?? []))
-            ->filter()
-            ->unique()
-            ->sort()
-            ->values()
-            ->all();
     }
 }

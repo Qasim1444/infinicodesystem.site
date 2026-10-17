@@ -32,6 +32,7 @@ class SiteData
                 return $c;
             }
         }
+
         return null;
     }
 
@@ -43,56 +44,6 @@ class SiteData
     public static function allFaqs(): array
     {
         return static::file('faq')['allFaqs'];
-    }
-
-    public static function posts(): array
-    {
-        return static::file('posts')['posts'];
-    }
-
-    public static function blogCategories(): array
-    {
-        return static::file('posts')['blogCategories'];
-    }
-
-    public static function featuredPost(): ?array
-    {
-        return static::file('posts')['featuredPost'];
-    }
-
-    public static function recentPosts(): array
-    {
-        return static::file('posts')['recentPosts'];
-    }
-
-    public static function getPost(?string $slug): ?array
-    {
-        foreach (static::posts() as $p) {
-            if (($p['slug'] ?? null) === $slug) {
-                return $p;
-            }
-        }
-        return null;
-    }
-
-    public static function relatedPosts(?string $slug, int $n = 3): array
-    {
-        $post = static::getPost($slug);
-        $tags = $post['tags'] ?? [];
-        $others = array_values(array_filter(static::posts(), fn ($p) => ($p['slug'] ?? null) !== $slug));
-        $scored = array_filter($others, fn ($p) => count(array_intersect($p['tags'] ?? [], $tags)) > 0);
-        $result = array_slice(array_values($scored), 0, $n);
-        if (count($result) < $n) {
-            foreach ($others as $p) {
-                if (count($result) >= $n) {
-                    break;
-                }
-                if (!in_array($p, $result, true)) {
-                    $result[] = $p;
-                }
-            }
-        }
-        return array_slice($result, 0, $n);
     }
 
     public static function processSteps(): array
@@ -127,6 +78,7 @@ class SiteData
                 return $p;
             }
         }
+
         return null;
     }
 
@@ -157,6 +109,7 @@ class SiteData
                 return $s;
             }
         }
+
         return null;
     }
 

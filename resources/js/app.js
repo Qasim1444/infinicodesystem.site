@@ -12,6 +12,7 @@ import { setupMetaPixel } from './meta-pixel.js';
 setupMetaPixel();
 
 createInertiaApp({
+    title: (title) => title ? `${title} | Infinicode System` : 'Infinicode System',
     resolve: (name) => {
         const pages = import.meta.glob('./Pages/**/*.vue', { eager: true });
         const page = pages[`./Pages/${name}.vue`];

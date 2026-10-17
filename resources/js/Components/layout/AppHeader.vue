@@ -31,7 +31,7 @@
             v-else
             :href="item.to"
             class="header__link"
-            :class="{ 'Link-active': isActive(item.to), 'header__link--secondary': ['/about', '/academy', '/blog', '/careers', '/contact'].includes(item.to) }"
+            :class="{ 'Link-active': isActive(item.to), 'header__link--secondary': ['/about', '/academy', '/careers', '/contact'].includes(item.to) }"
           >
             {{ navLabel(item) }}
           </Link>

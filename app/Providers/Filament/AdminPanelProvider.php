@@ -28,9 +28,11 @@ class AdminPanelProvider extends PanelProvider
             ->id('admin')
             ->path('admin')
             ->login()
+            ->profile()
             ->brandName('Infinicode System')
             ->brandLogo(asset('storage/images/infinicode-logo.webp'))
             ->brandLogoHeight('2.5rem')
+            ->favicon(asset('storage/images/favicon.webp'))
             ->colors([
                 'primary' => Color::Blue,
             ])

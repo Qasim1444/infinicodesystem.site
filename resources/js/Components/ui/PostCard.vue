@@ -2,7 +2,7 @@
   <Link :href="`/blog/${post.slug}`" class="post-card">
     <div class="post-card__media">
       <img :src="post.image" :alt="post.title" loading="lazy" />
-      <span class="post-card__cat badge">{{ post.category }}</span>
+      <span v-for="category in (post.categories?.length ? post.categories : [post.category])" :key="category" class="post-card__cat badge">{{ category }}</span>
       <SampleFlag v-if="post.sample" class="post-card__flag" />
     </div>
     <div class="post-card__body">

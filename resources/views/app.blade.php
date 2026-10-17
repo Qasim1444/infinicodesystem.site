@@ -3,9 +3,9 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="icon" type="image/webp" href="/storage/images/favicon.webp">
+    <link rel="icon" type="image/webp" href="{{ asset('storage/images/favicon.webp') }}">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title inertia>CodeWire Solutions</title>
+    <title inertia>Infinicode System</title>
     <script>
         try {
             const savedTheme = localStorage.getItem('site-theme');
