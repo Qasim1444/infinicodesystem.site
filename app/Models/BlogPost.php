@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Filament\Forms\Components\RichEditor\RichContentRenderer;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -80,7 +81,17 @@ class BlogPost extends Model
             'metaTitle' => $this->meta_title ?: $this->title,
             'metaDescription' => $this->meta_description ?: $this->excerpt,
             'body' => $bodyBlocks,
+            'bodyHtml' => $this->bodyHtml(),
         ];
+    }
+
+    private function bodyHtml(): ?string
+    {
+        if (preg_match('/<\s*(?:p|h[1-6]|ul|ol|li|blockquote|strong|em|a|br|hr)\b/i', $this->body) !== 1) {
+            return null;
+        }
+
+        return RichContentRenderer::make($this->body)->toHtml();
     }
 
     /** @return array<int, array<string, mixed>> */

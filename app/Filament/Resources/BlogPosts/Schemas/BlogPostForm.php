@@ -4,6 +4,7 @@ namespace App\Filament\Resources\BlogPosts\Schemas;
 
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
@@ -41,11 +42,19 @@ class BlogPostForm
                             ->maxLength(2000)
                             ->rows(3)
                             ->columnSpanFull(),
-                        Textarea::make('body')
+                        RichEditor::make('body')
                             ->required()
-                            ->rows(18)
+                            ->minHeight('28rem')
+                            ->toolbarButtons([
+                                ['bold', 'italic', 'underline', 'strike', 'link'],
+                                ['h2', 'h3', 'blockquote', 'bulletList', 'orderedList'],
+                                ['code', 'undo', 'redo'],
+                            ])
+                            ->formatStateUsing(static fn (?string $state): ?string => filled($state) && ! str_contains($state, '<')
+                                ? Str::markdown($state, ['html_input' => 'strip', 'allow_unsafe_links' => false])
+                                : $state)
                             ->columnSpanFull()
-                            ->helperText('Supports paragraphs, ## headings, - bullet lists, and > quotations.'),
+                            ->helperText('Format your article with headings, bold or italic text, links, lists, quotes, and code.'),
                         Select::make('blogCategories')
                             ->label('Categories')
                             ->multiple()

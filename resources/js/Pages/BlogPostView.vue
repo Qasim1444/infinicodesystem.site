@@ -54,7 +54,8 @@
     <!-- BODY -->
     <div class="container container--narrow">
       <div class="post-body">
-        <template v-for="(block, i) in post.body" :key="i">
+        <div v-if="post.bodyHtml" class="post-body__rich" v-html="post.bodyHtml" />
+        <template v-else v-for="(block, i) in post.body" :key="i">
           <p v-if="block.type === 'p'" class="post-body__p" v-reveal>{{ block.text }}</p>
           <h2 v-else-if="block.type === 'h2'" class="post-body__h2" v-reveal>{{ block.text }}</h2>
           <ul v-else-if="block.type === 'ul'" class="post-body__ul" v-reveal>
@@ -196,6 +197,51 @@ const authorInitials = computed(() =>
 
 /* Body */
 .post-body { padding-bottom: var(--space-7); }
+.post-body__rich :deep(p) {
+  color: var(--text-body);
+  line-height: 1.85;
+  font-size: 1.075rem;
+  margin-bottom: var(--space-5);
+}
+.post-body__rich :deep(h2),
+.post-body__rich :deep(h3),
+.post-body__rich :deep(h4) {
+  color: var(--text-hi);
+  font-family: var(--font-display);
+  line-height: 1.25;
+  margin: clamp(2rem, 4vw, 3rem) 0 var(--space-4);
+  scroll-margin-top: calc(var(--header-h) + 20px);
+}
+.post-body__rich :deep(ul),
+.post-body__rich :deep(ol) {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  margin: 0 0 var(--space-6);
+  padding: var(--space-5) var(--space-6);
+  background: var(--bg-elev);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  color: var(--text-body);
+  list-style-position: inside;
+}
+.post-body__rich :deep(ul) { list-style-type: disc; }
+.post-body__rich :deep(ol) { list-style-type: decimal; }
+.post-body__rich :deep(blockquote) {
+  margin: clamp(2rem, 4vw, 3rem) 0;
+  padding: var(--space-5) var(--space-6);
+  border-inline-start: 3px solid var(--yellow);
+  background: var(--yellow-tint);
+  border-radius: var(--radius-lg);
+  color: var(--text-hi);
+  font-family: var(--font-display);
+  font-size: clamp(1.15rem, 2.5vw, 1.5rem);
+  line-height: 1.5;
+}
+.post-body__rich :deep(a) { color: var(--yellow-strong); text-decoration: underline; text-underline-offset: 3px; }
+.post-body__rich :deep(pre),
+.post-body__rich :deep(code) { font-family: ui-monospace, SFMono-Regular, Consolas, monospace; }
+.post-body__rich :deep(pre) { overflow-x: auto; margin: var(--space-5) 0; padding: var(--space-5); border: 1px solid var(--border); border-radius: var(--radius-lg); background: var(--bg-elev); color: var(--text-body); }
 .post-body__p {
   color: var(--text-body);
   line-height: 1.85;
