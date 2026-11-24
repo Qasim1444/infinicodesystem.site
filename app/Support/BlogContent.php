@@ -12,7 +12,7 @@ class BlogContent
     public static function posts(): array
     {
         return BlogPost::published()
-            ->with(['blogCategories:id,name', 'blogTags:id,name'])
+            ->with(['category:id,name', 'blogTags:id,name'])
             ->orderByDesc('published_at')
             ->get()
             ->map(static fn (BlogPost $post): array => $post->toPublicArray())
@@ -23,9 +23,7 @@ class BlogContent
     public static function categories(): array
     {
         $categories = BlogCategory::query()
-            ->whereHas('blogPosts', static function (Builder $query): void {
-                $query->published();
-            })
+            ->whereHas('posts', static fn (Builder $query): mixed => $query->published())
             ->orderBy('name')
             ->pluck('name')
             ->all();
@@ -37,7 +35,7 @@ class BlogContent
     public static function featuredPost(): ?array
     {
         $featured = BlogPost::published()
-            ->with(['blogCategories:id,name', 'blogTags:id,name'])
+            ->with(['category:id,name', 'blogTags:id,name'])
             ->where('is_featured', true)
             ->latest('published_at')
             ->first();
@@ -49,7 +47,7 @@ class BlogContent
     public static function find(string $slug): ?array
     {
         $post = BlogPost::published()
-            ->with(['blogCategories:id,name', 'blogTags:id,name'])
+            ->with(['category:id,name', 'blogTags:id,name'])
             ->where('slug', $slug)
             ->first();
 

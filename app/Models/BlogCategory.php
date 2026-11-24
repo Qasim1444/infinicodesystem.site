@@ -6,17 +6,19 @@ use Database\Factories\BlogCategoryFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
-#[Fillable(['name', 'description'])]
+#[Fillable(['name', 'slug', 'description'])]
 class BlogCategory extends Model
 {
+    protected $table = 'categories';
+
     /** @use HasFactory<BlogCategoryFactory> */
     use HasFactory;
 
-    /** @return BelongsToMany<BlogPost, $this> */
-    public function blogPosts(): BelongsToMany
+    /** @return HasMany<BlogPost, $this> */
+    public function posts(): HasMany
     {
-        return $this->belongsToMany(BlogPost::class, 'blog_post_category');
+        return $this->hasMany(BlogPost::class);
     }
 }

@@ -22,7 +22,7 @@ class BlogPostsTable
                     ->sortable()
                     ->wrap(),
                 TextColumn::make('categories')
-                    ->state(static fn (BlogPost $record): string => $record->blogCategories->pluck('name')->implode(', '))
+                    ->state(static fn (BlogPost $record): string => $record->category?->name ?? '')
                     ->badge(),
                 TextColumn::make('status')
                     ->badge()

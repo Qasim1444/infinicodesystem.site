@@ -37,6 +37,10 @@ class BlogTagResource extends Resource
                     ->required()
                     ->maxLength(100)
                     ->unique(ignoreRecord: true),
+                TextInput::make('slug')
+                    ->required()
+                    ->maxLength(100)
+                    ->unique(ignoreRecord: true),
             ]);
     }
 

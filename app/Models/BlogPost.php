@@ -12,17 +12,20 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 #[Fillable([
-    'user_id', 'title', 'slug', 'excerpt', 'body', 'cover_image',
+    'user_id', 'title', 'slug', 'excerpt', 'content', 'image', 'category_id',
     'author_name', 'author_role', 'meta_title', 'meta_description', 'status',
-    'is_featured', 'published_at',
+    'is_featured', 'is_published', 'published_at',
 ])]
 class BlogPost extends Model
 {
+    protected $table = 'posts';
+
     /** @return array<string, string> */
     protected function casts(): array
     {
         return [
             'is_featured' => 'boolean',
+            'is_published' => 'boolean',
             'published_at' => 'datetime',
         ];
     }
@@ -30,7 +33,13 @@ class BlogPost extends Model
     /** @param Builder<BlogPost> $query */
     public function scopePublished(Builder $query): void
     {
-        $query->where('status', 'published')->whereNotNull('published_at')->where('published_at', '<=', now());
+        $query->where(function (Builder $query): void {
+            $query->where('is_published', true)
+                ->orWhere('status', 'published');
+        })->where(function (Builder $query): void {
+            $query->whereNull('published_at')
+                ->orWhere('published_at', '<=', now());
+        });
     }
 
     /** @return BelongsTo<User, BlogPost> */
@@ -39,16 +48,16 @@ class BlogPost extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
-    /** @return BelongsToMany<BlogCategory, $this> */
-    public function blogCategories(): BelongsToMany
+    /** @return BelongsTo<BlogCategory, $this> */
+    public function category(): BelongsTo
     {
-        return $this->belongsToMany(BlogCategory::class, 'blog_post_category');
+        return $this->belongsTo(BlogCategory::class);
     }
 
     /** @return BelongsToMany<BlogTag, $this> */
     public function blogTags(): BelongsToMany
     {
-        return $this->belongsToMany(BlogTag::class, 'blog_post_tag');
+        return $this->belongsToMany(BlogTag::class, 'post_tag');
     }
 
     /** @return array<string, mixed> */
@@ -56,10 +65,10 @@ class BlogPost extends Model
     {
         $date = $this->published_at ?? $this->created_at;
         $bodyBlocks = $this->bodyBlocks();
-        $this->loadMissing(['blogCategories:id,name', 'blogTags:id,name']);
-        $categories = $this->blogCategories->pluck('name')->all();
+        $this->loadMissing(['category:id,name', 'blogTags:id,name']);
+        $categories = filled($this->category?->name) ? [$this->category->name] : [];
         $tags = $this->blogTags->pluck('name')->all();
-        $image = $this->cover_image;
+        $image = $this->image;
 
         if (filled($image) && ! Str::startsWith($image, ['/storage/', 'http://', 'https://'])) {
             $image = Storage::disk('public')->url($image);
@@ -75,7 +84,7 @@ class BlogPost extends Model
             'author' => $this->author_name,
             'authorRole' => $this->author_role ?: 'Contributor',
             'date' => $date?->toDateString(),
-            'readTime' => max(1, (int) ceil(str_word_count($this->body) / 200)),
+            'readTime' => max(1, (int) ceil(str_word_count($this->content) / 200)),
             'featured' => $this->is_featured,
             'tags' => $tags,
             'metaTitle' => $this->meta_title ?: $this->title,
@@ -87,11 +96,11 @@ class BlogPost extends Model
 
     private function bodyHtml(): ?string
     {
-        if (preg_match('/<\s*(?:p|h[1-6]|ul|ol|li|blockquote|strong|em|a|br|hr)\b/i', $this->body) !== 1) {
+        if (preg_match('/<\s*(?:p|h[1-6]|ul|ol|li|blockquote|strong|em|a|br|hr)\b/i', $this->content) !== 1) {
             return null;
         }
 
-        return RichContentRenderer::make($this->body)->toHtml();
+        return RichContentRenderer::make($this->content)->toHtml();
     }
 
     /** @return array<int, array<string, mixed>> */
@@ -114,7 +123,7 @@ class BlogPost extends Model
             }
         };
 
-        foreach (preg_split('/\R/u', $this->body) ?: [] as $line) {
+        foreach (preg_split('/\R/u', $this->content) ?: [] as $line) {
             $line = trim($line);
             if ($line === '') {
                 $flushParagraph();

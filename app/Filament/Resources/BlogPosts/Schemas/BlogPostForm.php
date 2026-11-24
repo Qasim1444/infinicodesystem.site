@@ -42,7 +42,7 @@ class BlogPostForm
                             ->maxLength(2000)
                             ->rows(3)
                             ->columnSpanFull(),
-                        RichEditor::make('body')
+                        RichEditor::make('content')
                             ->required()
                             ->minHeight('28rem')
                             ->toolbarButtons([
@@ -55,10 +55,9 @@ class BlogPostForm
                                 : $state)
                             ->columnSpanFull()
                             ->helperText('Format your article with headings, bold or italic text, links, lists, quotes, and code.'),
-                        Select::make('blogCategories')
+                        Select::make('category_id')
                             ->label('Categories')
-                            ->multiple()
-                            ->relationship(name: 'blogCategories', titleAttribute: 'name')
+                            ->relationship(name: 'category', titleAttribute: 'name')
                             ->searchable()
                             ->preload()
                             ->native(false)
@@ -71,7 +70,7 @@ class BlogPostForm
                             ->preload()
                             ->native(false)
                             ->placeholder('Select tags'),
-                        FileUpload::make('cover_image')
+                        FileUpload::make('image')
                             ->image()
                             ->acceptedFileTypes(['image/webp'])
                             ->disk('public')

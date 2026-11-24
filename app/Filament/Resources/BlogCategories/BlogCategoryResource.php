@@ -38,6 +38,10 @@ class BlogCategoryResource extends Resource
                     ->required()
                     ->maxLength(100)
                     ->unique(ignoreRecord: true),
+                TextInput::make('slug')
+                    ->required()
+                    ->maxLength(100)
+                    ->unique(ignoreRecord: true),
                 Textarea::make('description')
                     ->rows(3)
                     ->maxLength(1000)
