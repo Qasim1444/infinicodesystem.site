@@ -33,13 +33,11 @@ class BlogPost extends Model
     /** @param Builder<BlogPost> $query */
     public function scopePublished(Builder $query): void
     {
-        $query->where(function (Builder $query): void {
-            $query->where('is_published', true)
-                ->orWhere('status', 'published');
-        })->where(function (Builder $query): void {
-            $query->whereNull('published_at')
-                ->orWhere('published_at', '<=', now());
-        });
+        $query->where('is_published', true)
+            ->where(function (Builder $query): void {
+                $query->whereNull('published_at')
+                    ->orWhere('published_at', '<=', now());
+            });
     }
 
     /** @return BelongsTo<User, BlogPost> */
@@ -81,7 +79,7 @@ class BlogPost extends Model
             'categories' => $categories,
             'excerpt' => $this->excerpt,
             'image' => $image ?: '/storage/images/blog-featured-1-1.webp',
-            'author' => $this->author_name,
+            'author' => $this->author_name ?: 'Infinicode System',
             'authorRole' => $this->author_role ?: 'Contributor',
             'date' => $date?->toDateString(),
             'readTime' => max(1, (int) ceil(str_word_count($this->content) / 200)),

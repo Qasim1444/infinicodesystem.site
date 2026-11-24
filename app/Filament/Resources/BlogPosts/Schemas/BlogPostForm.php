@@ -87,18 +87,12 @@ class BlogPostForm
                     ->columns(2)
                     ->schema([
                         TextInput::make('author_name')
-                            ->required()
                             ->maxLength(120),
                         TextInput::make('author_role')
                             ->maxLength(160),
-                        Select::make('status')
-                            ->options([
-                                'draft' => 'Draft',
-                                'published' => 'Published',
-                            ])
-                            ->required()
-                            ->native(false)
-                            ->default('draft'),
+                        Toggle::make('is_published')
+                            ->label('Publish this article')
+                            ->default(false),
                         DateTimePicker::make('published_at'),
                         Toggle::make('is_featured')
                             ->label('Feature this article on the blog')

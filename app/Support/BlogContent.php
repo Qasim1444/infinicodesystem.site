@@ -23,7 +23,9 @@ class BlogContent
     public static function categories(): array
     {
         $categories = BlogCategory::query()
-            ->whereHas('posts', static fn (Builder $query): mixed => $query->published())
+            ->whereHas('posts', static function (Builder $query): void {
+                $query->published();
+            })
             ->orderBy('name')
             ->pluck('name')
             ->all();

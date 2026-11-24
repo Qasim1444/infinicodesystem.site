@@ -24,9 +24,11 @@ class BlogPostsTable
                 TextColumn::make('categories')
                     ->state(static fn (BlogPost $record): string => $record->category?->name ?? '')
                     ->badge(),
-                TextColumn::make('status')
+                TextColumn::make('is_published')
+                    ->label('Status')
+                    ->formatStateUsing(static fn (bool $state): string => $state ? 'Published' : 'Draft')
                     ->badge()
-                    ->color(fn (string $state): string => $state === 'published' ? 'success' : 'gray')
+                    ->color(static fn (bool $state): string => $state ? 'success' : 'gray')
                     ->sortable(),
                 IconColumn::make('is_featured')
                     ->label('Featured')
@@ -41,10 +43,10 @@ class BlogPostsTable
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                SelectFilter::make('status')
+                SelectFilter::make('is_published')
                     ->options([
-                        'draft' => 'Draft',
-                        'published' => 'Published',
+                        true => 'Published',
+                        false => 'Draft',
                     ]),
             ])
             ->defaultSort('updated_at', 'desc')

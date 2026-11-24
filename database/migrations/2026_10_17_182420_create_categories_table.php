@@ -2,7 +2,9 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Str;
 
 return new class extends Migration
 {
@@ -31,6 +33,19 @@ return new class extends Migration
             Schema::table('categories', function (Blueprint $table) {
                 $table->string('slug', 100)->nullable()->unique()->after('name');
             });
+        }
+
+        foreach (DB::table('categories')->whereNull('slug')->orderBy('id')->get(['id', 'name']) as $category) {
+            $baseSlug = Str::slug($category->name) ?: "category-{$category->id}";
+            $slug = $baseSlug;
+            $suffix = 2;
+
+            while (DB::table('categories')->where('slug', $slug)->exists()) {
+                $slug = "{$baseSlug}-{$suffix}";
+                $suffix++;
+            }
+
+            DB::table('categories')->where('id', $category->id)->update(['slug' => $slug]);
         }
     }
 

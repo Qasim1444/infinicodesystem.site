@@ -13,7 +13,10 @@ class CreateBlogPost extends CreateRecord
     {
         $data['user_id'] = auth()->id();
 
-        if ($data['status'] === 'published' && blank($data['published_at'] ?? null)) {
+        $isPublished = (bool) ($data['is_published'] ?? false);
+        $data['status'] = $isPublished ? 'published' : 'draft';
+
+        if ($isPublished && blank($data['published_at'] ?? null)) {
             $data['published_at'] = now();
         }
 
