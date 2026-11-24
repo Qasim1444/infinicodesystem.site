@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Models\BlogCategory;
 use App\Models\BlogPost;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\DB;
@@ -50,6 +51,7 @@ class BlogSchemaTest extends TestCase
 
         $this->assertSame('Example category', $post->category?->name);
         $this->assertSame('Example tag', $post->blogTags->first()?->name);
+        $this->assertSame([$postId], BlogCategory::query()->findOrFail($categoryId)->posts->pluck('id')->all());
         $this->assertTrue(BlogPost::published()->whereKey($postId)->exists());
         $this->assertSame('Infinicode System', $post->toPublicArray()['author']);
     }

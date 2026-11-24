@@ -49,7 +49,7 @@ class BlogPost extends Model
     /** @return BelongsTo<BlogCategory, $this> */
     public function category(): BelongsTo
     {
-        return $this->belongsTo(BlogCategory::class);
+        return $this->belongsTo(BlogCategory::class, 'category_id');
     }
 
     /** @return BelongsToMany<BlogTag, $this> */
