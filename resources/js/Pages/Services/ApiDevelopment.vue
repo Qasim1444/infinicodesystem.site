@@ -1,5 +1,49 @@
 <script setup>
-import StaticSeoPageView from '../../Components/StaticSeoPageView.vue';
-const slug='api-development';
+import StaticServiceLandingPage from '../../Components/StaticServiceLandingPage.vue';
+
+const page = {
+    slug: 'api-development',
+    shortTitle: 'API development',
+    title: 'API Development and Integration That Keeps Systems in Sync',
+    metaTitle: 'API Development and Integration Services | Infinicode System',
+    metaDescription: 'Design reliable APIs connecting CRM, ERP, payments, logistics, mobile apps, ecommerce, and internal systems.',
+    keyword: 'API development company',
+    visualTitle: 'Make every integration dependable',
+    visualSteps: ['Define stable contracts', 'Protect data and identity', 'Monitor and recover operations'],
+    visualFooter: 'Secure interfaces backed by observable operations.',
+    leadTitle: 'Connect business systems without losing control of the data.',
+    intro: 'We design APIs and integrations that make data exchange predictable. That means clear contracts, secure authentication, compatibility, retries, monitoring, and ownership—not just a successful request in a demo.',
+    outcomes: [
+        { title: 'Stable contracts', text: 'Give teams consistent schemas, examples, errors, and version rules.' },
+        { title: 'Secure boundaries', text: 'Control identity, scopes, validation, and sensitive information.' },
+        { title: 'Recoverable operations', text: 'Make failures visible and provide replay and reconciliation paths.' },
+    ],
+    capabilitiesTitle: 'API work across the full integration lifecycle',
+    capabilitiesIntro: 'Plan both sides of the connection and the people who will support it.',
+    capabilities: [
+        { title: 'API design and development', text: 'Build versioned REST APIs, authentication, validation, and documentation.' },
+        { title: 'System integrations', text: 'Connect CRM, ERP, payment, logistics, ecommerce, and mobile platforms.' },
+        { title: 'Events and reliability', text: 'Design webhooks, background processing, idempotency, monitoring, and recovery.' },
+    ],
+    processTitle: 'From integration map to supportable connection',
+    process: [
+        { title: 'Map', text: 'Identify systems, events, data owners, volume, and latency expectations.' },
+        { title: 'Contract', text: 'Define schemas, permissions, versions, errors, and test fixtures.' },
+        { title: 'Implement', text: 'Build with validation, safe retries, security, and observability.' },
+        { title: 'Operate', text: 'Test recovery, document support, and monitor integration health.' },
+    ],
+    fitTitle: 'For products that need to work across systems',
+    fitIntro: 'We support teams across the USA, UK, UAE, and Qatar with new APIs, integration delivery, and reliability improvements.',
+    faqs: [
+        { question: 'Can you integrate with third-party software?', answer: 'Yes. We assess available APIs, authentication, rate limits, data contracts, and support constraints before proposing an approach.' },
+        { question: 'How do you handle API failures?', answer: 'We design timeouts, bounded retries, idempotent operations, monitoring, and reconciliation so failures can be diagnosed and recovered.' },
+        { question: 'Can you document and version an existing API?', answer: 'Yes. We can map current behavior, document contracts, and introduce a compatibility and change process.' },
+    ],
+    ctaTitle: 'Make your systems work together with confidence.',
+    ctaText: 'Tell us which systems need to connect and what currently breaks. We can map an integration plan with clear ownership and recovery.',
+};
 </script>
-<template><StaticSeoPageView :slug="slug" /></template>
+
+<template>
+    <StaticServiceLandingPage :page="page" />
+</template>

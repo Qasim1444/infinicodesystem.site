@@ -38,7 +38,7 @@ Route::get('/services', function () {
 })->name('services');
 
 // Static SEO service pages
-$staticServiceComponents = array(
+$staticServiceComponents = [
     'laravel-development' => 'Services/LaravelDevelopment',
     'react-native-development' => 'Services/ReactNativeDevelopment',
     'crm-erp-development' => 'Services/CrmErpDevelopment',
@@ -47,12 +47,12 @@ $staticServiceComponents = array(
     'saas-development' => 'Services/SaasDevelopment',
     'api-development' => 'Services/ApiDevelopment',
     'custom-software' => 'Services/CustomSoftware',
-);
-foreach ($staticServiceComponents as $staticSlug => $staticComponent) {
-    Route::get("/services/{staticSlug}", function (string $staticSlug) use ($staticComponent) {
-        return Inertia::render($staticComponent, ['slug' => $staticSlug]);
-    })->where('staticSlug', implode('|', array_keys($staticServiceComponents)))->name('static-service-'.$staticSlug);
-}
+];
+Route::get('/services/{staticSlug}', function (string $staticSlug) use ($staticServiceComponents) {
+    abort_unless(isset($staticServiceComponents[$staticSlug]), 404);
+
+    return Inertia::render($staticServiceComponents[$staticSlug]);
+})->where('staticSlug', implode('|', array_keys($staticServiceComponents)))->name('static-service');
 
 Route::get('/services/{slug}', function (string $slug) {
     return Inertia::render('ServiceDetailView', [
@@ -107,7 +107,7 @@ Route::get('/academy/{slug}', function (string $slug) {
 })->name('course-detail');
 
 // Static code-based blog
-$staticBlogComponents = array(
+$staticBlogComponents = [
     'choose-laravel-development-company' => 'Blog/ChooseLaravelDevelopmentCompany',
     'laravel-saas-development-features' => 'Blog/LaravelSaasDevelopmentFeatures',
     'when-to-build-a-custom-crm' => 'Blog/WhenToBuildACustomCrm',
@@ -138,7 +138,7 @@ $staticBlogComponents = array(
     'api-development-integration-planning' => 'Blog/ApiDevelopmentIntegrationPlanning',
     'reduce-custom-software-project-risk' => 'Blog/ReduceCustomSoftwareProjectRisk',
     'custom-software-launch-roadmap' => 'Blog/CustomSoftwareLaunchRoadmap',
-);
+];
 
 Route::get('/blog', function () {
     return Inertia::render('StaticBlogView');
@@ -146,7 +146,8 @@ Route::get('/blog', function () {
 
 Route::get('/blog/{slug}', function (string $slug) use ($staticBlogComponents) {
     abort_unless(isset($staticBlogComponents[$slug]), 404);
-    return Inertia::render($staticBlogComponents[$slug], ['slug' => $slug]);
+
+    return Inertia::render($staticBlogComponents[$slug]);
 })->where('slug', implode('|', array_keys($staticBlogComponents)))->name('blog-post');
 
 // Standalone secondary pages

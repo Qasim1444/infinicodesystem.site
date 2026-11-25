@@ -1,5 +1,53 @@
 <script setup>
-import StaticBlogPostView from '../../Components/StaticBlogPostView.vue';
-const slug='laravel-codebase-handover-checklist';
+import StaticBlogArticle from '../../Components/StaticBlogArticle.vue';
+
+const article = {
+    slug: 'laravel-codebase-handover-checklist',
+    category: 'Laravel development',
+    keyword: 'Laravel maintenance services',
+    title: 'Taking Over an Existing Laravel Codebase: A Practical Checklist',
+    metaTitle: 'Laravel Codebase Handover Checklist | Infinicode System',
+    metaDescription: 'Audit access, deployments, dependencies, tests, security, and operations before taking responsibility for Laravel software.',
+    excerpt: 'A safe handover checklist covering access, deployment, dependencies, tests, security, performance, and roadmap.',
+    publishedAt: '2026-11-25',
+    publishedLabel: 'November 25, 2026',
+    readTime: 8,
+    leadTitle: 'Stabilize access and operations before making broad changes.',
+    intro: 'Taking over software starts with understanding what is running, who can reach it, and how a change becomes production. A calm, evidence-led handover reduces the chance of breaking a system while learning its history.',
+    visualTitle: 'A safer codebase takeover',
+    visualSteps: ['Secure access', 'Map release flow', 'Prioritize known risks'],
+    takeaways: [
+        { title: 'Inventory first', text: 'Find repositories, environments, credentials, data stores, and external services.' },
+        { title: 'Prove the release path', text: 'Understand backups, deployments, migrations, monitoring, and rollback.' },
+        { title: 'Change in small steps', text: 'Record baseline behavior and prioritize fixes by evidence and impact.' },
+    ],
+    sections: [
+        { heading: 'Collect ownership and access', body: 'Create an inventory of source repositories, cloud accounts, domains, databases, queues, storage, email, and third-party integrations. Confirm who owns each account and how access can be recovered.', detail: 'Rotate exposed or shared credentials through a planned process; do not revoke access until replacement paths are tested.', points: ['Verify least-privilege team access', 'Locate environment configuration securely', 'Document vendors, renewal dates, and support contacts'] },
+        { heading: 'Understand how production changes', body: 'Trace a code change from review to deployment. Identify CI checks, build steps, database migrations, scheduled jobs, queues, cache behavior, and the rollback procedure.', detail: 'Run a controlled deployment to a non-production environment if one exists, then compare the running version with the source branch.', points: ['Confirm backups and restore evidence', 'Check deployment and migration logs', 'Know how to disable a risky feature'] },
+        { heading: 'Establish a safe technical baseline', body: 'Run the existing test suite before changing behavior. Review dependency health, supported PHP and Laravel versions, authentication, authorization, error reporting, and server resource trends.', detail: 'Document baseline errors and known limitations so future improvements can be measured rather than guessed.', points: ['Record failing tests without hiding them', 'Review secrets and access boundaries', 'Check monitoring, queue failures, and backup age'] },
+        { heading: 'Create a prioritized handover plan', body: 'Group findings into urgent operational risks, security work, reliability improvements, and product changes. Pair each item with an owner, evidence, and a safe completion check.', points: ['Fix critical access or backup gaps first', 'Keep refactoring separate from behavior changes', 'Schedule a knowledge-transfer review with stakeholders'] },
+    ],
+    actionTitle: 'Keep the takeover orderly',
+    actionIntro: 'A short, shared handover record is more useful than a large unprioritized audit.',
+    actions: [
+        { title: 'Map', text: 'Draw the production architecture and list every owner and integration.' },
+        { title: 'Verify', text: 'Test a restore, deployment, and alert path where safe.' },
+        { title: 'Prioritize', text: 'Agree on the first changes and how each one will be validated.' },
+    ],
+    faqs: [
+        { question: 'Should we upgrade Laravel immediately after takeover?', answer: 'First establish a working baseline, deployment path, backups, and tests. Then plan upgrades against compatibility and security needs instead of combining them with unrelated changes.' },
+        { question: 'What if the old team cannot provide documentation?', answer: 'Reconstruct the system from repositories, infrastructure, logs, and stakeholder interviews. Record unknowns explicitly and validate assumptions in a safe environment.' },
+    ],
+    service: { href: '/services/laravel-development', label: 'Laravel development services' },
+    related: [
+        { href: '/blog/choose-laravel-development-company', category: 'Laravel development', title: 'Choose a Laravel development partner' },
+        { href: '/blog/plan-secure-laravel-api-integration', category: 'APIs', title: 'Plan a secure Laravel API integration' },
+    ],
+    ctaTitle: 'Know what you are inheriting before changing it.',
+    ctaText: 'We can help map an existing Laravel application, verify its operational path, and turn the findings into a safe improvement roadmap.',
+};
 </script>
-<template><StaticBlogPostView :slug="slug" /></template>
+
+<template>
+    <StaticBlogArticle :article="article" />
+</template>

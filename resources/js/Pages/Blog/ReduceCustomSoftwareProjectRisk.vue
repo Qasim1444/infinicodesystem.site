@@ -1,5 +1,53 @@
 <script setup>
-import StaticBlogPostView from '../../Components/StaticBlogPostView.vue';
-const slug='reduce-custom-software-project-risk';
+import StaticBlogArticle from '../../Components/StaticBlogArticle.vue';
+
+const article = {
+    slug: 'reduce-custom-software-project-risk',
+    category: 'Custom software',
+    keyword: 'custom software development process',
+    title: 'How to Reduce Risk in a Custom Software Project',
+    metaTitle: 'Reduce Risk in a Custom Software Project | Infinicode System',
+    metaDescription: 'Reduce software delivery risk with discovery, milestones, demos, acceptance criteria, testing, change control, and launch planning.',
+    excerpt: 'Reduce custom software risk with discovery, milestones, demos, acceptance criteria, testing, change control, and launch planning.',
+    publishedAt: '2026-11-25',
+    publishedLabel: 'November 25, 2026',
+    readTime: 7,
+    leadTitle: 'Make uncertainty visible while changes are still inexpensive.',
+    intro: 'Software projects carry product, technical, operational, and adoption risks. Teams reduce risk by testing assumptions early, delivering reviewable increments, and agreeing on how evidence changes priorities.',
+    visualTitle: 'Reduce risk in small steps',
+    visualSteps: ['Surface assumptions', 'Review working increments', 'Pilot and learn'],
+    takeaways: [
+        { title: 'Discover the hard parts', text: 'Prioritize uncertain workflows, integrations, and data before broad implementation.' },
+        { title: 'Review working software', text: 'Frequent demos reveal misunderstandings earlier than document sign-off.' },
+        { title: 'Plan adoption and operations', text: 'Training, monitoring, support, and rollout are part of delivery.' },
+    ],
+    sections: [
+        { heading: 'Identify risks by type and evidence', body: 'List unknowns across user needs, integrations, data quality, security, performance, staffing, and rollout. Rank them by likelihood and impact, then identify the fastest useful test.', detail: 'Do not label every concern “high priority”; distinguish confirmed blockers from assumptions that need validation.', points: ['Assign an owner to each risk', 'Record evidence and review date', 'Choose prototype, test, or stakeholder check'] },
+        { heading: 'Break work into reviewable outcomes', body: 'Plan milestones around user-visible capabilities and technical foundations. Each increment should have acceptance criteria and an opportunity for stakeholders to see and use working software.', detail: 'A demo is a feedback mechanism, not a substitute for automated tests or production-like validation.', points: ['Define a narrow first release', 'Track dependencies and decisions', 'Keep scope changes visible'] },
+        { heading: 'Protect quality and delivery continuity', body: 'Include automated checks, code review, security controls, backups, observability, and a deployment strategy. Make operational readiness part of the definition of done.', detail: 'Test restore and rollback paths before they are needed in an incident.', points: ['Set test and accessibility expectations', 'Review access and sensitive data handling', 'Monitor errors and background work'] },
+        { heading: 'Pilot before scaling rollout', body: 'Start with representative users and real workflows. Gather feedback, measure task outcomes, and resolve support issues before a broad launch.', points: ['Prepare training and communication', 'Set go/no-go criteria', 'Define an owner for post-launch improvement'] },
+    ],
+    actionTitle: 'Run a risk review at every milestone',
+    actionIntro: 'Keep the conversation grounded in what changed, what remains uncertain, and what decision comes next.',
+    actions: [
+        { title: 'What did we learn?', text: 'Update assumptions using user feedback and technical evidence.' },
+        { title: 'What can fail next?', text: 'Review dependencies, data, access, and operational readiness.' },
+        { title: 'What is the smallest safe step?', text: 'Choose a test or release that reduces uncertainty without overcommitting.' },
+    ],
+    faqs: [
+        { question: 'Can a fixed scope eliminate software project risk?', answer: 'No. Scope can clarify commitments, but assumptions, integrations, and user needs still change. Make change control and evidence-based review part of the plan.' },
+        { question: 'How often should stakeholders see progress?', answer: 'Often enough to make useful decisions before work is complete. Regular demos and concise status on risks and dependencies help avoid late surprises.' },
+    ],
+    service: { href: '/services/custom-software', label: 'Custom software development' },
+    related: [
+        { href: '/blog/custom-software-discovery-workshop-guide', category: 'Custom software', title: 'What happens during software discovery?' },
+        { href: '/blog/custom-software-launch-roadmap', category: 'Custom software', title: 'Plan the route to production' },
+    ],
+    ctaTitle: 'Keep your project decisions tied to evidence.',
+    ctaText: 'We can help identify delivery risks, build a reviewable roadmap, and plan a pilot that protects your investment.',
+};
 </script>
-<template><StaticBlogPostView :slug="slug" /></template>
+
+<template>
+    <StaticBlogArticle :article="article" />
+</template>

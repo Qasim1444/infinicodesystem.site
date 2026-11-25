@@ -1,5 +1,49 @@
 <script setup>
-import StaticSeoPageView from '../../Components/StaticSeoPageView.vue';
-const slug='crm-erp-development';
+import StaticServiceLandingPage from '../../Components/StaticServiceLandingPage.vue';
+
+const page = {
+    slug: 'crm-erp-development',
+    shortTitle: 'CRM and ERP development',
+    title: 'Custom CRM and ERP Development for Connected Workflows',
+    metaTitle: 'Custom CRM and ERP Development | Infinicode System',
+    metaDescription: 'Build workflow-focused CRM and ERP software for better visibility, automation, permissions, integrations, and reporting.',
+    keyword: 'custom CRM development company',
+    visualTitle: 'Connect people, records, and decisions',
+    visualSteps: ['Map roles and workflows', 'Unify trusted business data', 'Automate with clear controls'],
+    visualFooter: 'Purpose-built business systems, designed to evolve.',
+    leadTitle: 'Give teams one dependable way to move work forward.',
+    intro: 'We design CRM and ERP systems around the way your teams sell, serve, purchase, approve, and report. Start with a workflow gap, then build the records, permissions, and integrations needed to make it visible and manageable.',
+    outcomes: [
+        { title: 'Less manual handoff', text: 'Connect teams and remove repetitive re-entry across tools.' },
+        { title: 'Clear accountability', text: 'Make ownership, approvals, permissions, and history visible.' },
+        { title: 'Useful reporting', text: 'Build around measures teams can trust and act on.' },
+    ],
+    capabilitiesTitle: 'Business software that matches your operating model',
+    capabilitiesIntro: 'A system should support how your organization works without hiding important exceptions.',
+    capabilities: [
+        { title: 'CRM platforms', text: 'Manage relationships, pipelines, service requests, and customer operations.' },
+        { title: 'ERP workflows', text: 'Connect purchasing, inventory, finance operations, approvals, and reporting.' },
+        { title: 'Migration and integration', text: 'Move data carefully and connect existing tools through stable APIs.' },
+    ],
+    processTitle: 'From process map to working business system',
+    process: [
+        { title: 'Observe', text: 'Understand current work, pain points, roles, and system boundaries.' },
+        { title: 'Model', text: 'Define records, states, permissions, reports, and exceptions.' },
+        { title: 'Pilot', text: 'Build a focused workflow, migrate representative data, and test with users.' },
+        { title: 'Expand', text: 'Measure adoption and extend the system in controlled phases.' },
+    ],
+    fitTitle: 'For organizations whose workflows no longer fit the tools',
+    fitIntro: 'We help teams across the USA, UK, UAE, and Qatar compare configuration, integration, and custom development before committing to a solution.',
+    faqs: [
+        { question: 'Should we build a custom CRM instead of using a packaged product?', answer: 'Only when important workflow needs cannot be met through practical configuration or integration and the long-term ownership case is clear.' },
+        { question: 'Can you migrate data from spreadsheets or an older CRM?', answer: 'Yes. We inventory sources, define mappings, test imports, reconcile records, and plan a controlled cutover.' },
+        { question: 'Can CRM and ERP workflows be connected?', answer: 'Yes. We plan system boundaries and data ownership so customer, inventory, purchasing, and operational records stay consistent.' },
+    ],
+    ctaTitle: 'Make your systems work the way your business does.',
+    ctaText: 'Bring one workflow that is creating friction. We can map the gap and identify whether configuration, integration, or custom software is the right next step.',
+};
 </script>
-<template><StaticSeoPageView :slug="slug" /></template>
+
+<template>
+    <StaticServiceLandingPage :page="page" />
+</template>

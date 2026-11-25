@@ -1,5 +1,49 @@
 <script setup>
-import StaticSeoPageView from '../../Components/StaticSeoPageView.vue';
-const slug='laravel-development';
+import StaticServiceLandingPage from '../../Components/StaticServiceLandingPage.vue';
+
+const page = {
+    slug: 'laravel-development',
+    shortTitle: 'Laravel development',
+    title: 'Laravel Development Services for Business-Critical Software',
+    metaTitle: 'Laravel Development Services | Infinicode System',
+    metaDescription: 'Build secure Laravel applications, APIs, dashboards, and SaaS products with a delivery plan designed around your workflows.',
+    keyword: 'Laravel development company',
+    visualTitle: 'Build software your team can own',
+    visualSteps: ['Map business workflows', 'Deliver tested increments', 'Prepare for real operations'],
+    visualFooter: 'Laravel engineering, from discovery to support.',
+    leadTitle: 'Practical Laravel engineering for products that need to work every day.',
+    intro: 'We build and improve Laravel applications around the people, rules, and integrations behind your business. That includes customer portals, internal platforms, APIs, dashboards, and SaaS products—with a focus on maintainability and safe releases.',
+    outcomes: [
+        { title: 'Clear scope', text: 'Know the first release, assumptions, dependencies, and review points.' },
+        { title: 'Dependable engineering', text: 'Build around testing, access control, observability, and secure integrations.' },
+        { title: 'Long-term ownership', text: 'Keep code, deployment knowledge, and product decisions understandable.' },
+    ],
+    capabilitiesTitle: 'Laravel solutions shaped around your operation',
+    capabilitiesIntro: 'Start with the business outcome and choose the smallest architecture that supports it safely.',
+    capabilities: [
+        { title: 'Business platforms', text: 'Custom workflows, approvals, permissions, reporting, and staff portals.' },
+        { title: 'APIs and integrations', text: 'Versioned endpoints and reliable connections to payment, CRM, ERP, and mobile systems.' },
+        { title: 'SaaS products', text: 'Tenant-aware applications with onboarding, roles, billing rules, and operational controls.' },
+    ],
+    processTitle: 'A visible delivery process',
+    process: [
+        { title: 'Discover', text: 'Map users, tasks, systems, constraints, and measures of success.' },
+        { title: 'Design', text: 'Define workflows, data boundaries, architecture, and release priorities.' },
+        { title: 'Build and verify', text: 'Deliver working increments with tests, review, and deployment evidence.' },
+        { title: 'Launch and improve', text: 'Prepare support, monitoring, handover, and a measured improvement plan.' },
+    ],
+    fitTitle: 'Built for teams that need clarity and a capable partner',
+    fitIntro: 'We work with product owners and operations teams in the USA, UK, UAE, and Qatar. Project fit starts with a workflow and an honest conversation about the result you need.',
+    faqs: [
+        { question: 'Can you improve an existing Laravel application?', answer: 'Yes. We can review the codebase and deployment process, identify operational risks, and agree on a safe sequence for improvements.' },
+        { question: 'Do you build APIs as well as web applications?', answer: 'Yes. API design, authentication, integrations, background jobs, and monitoring can be planned as part of the application or as a focused service.' },
+        { question: 'How do projects begin?', answer: 'We start by understanding users, workflows, data, dependencies, and success measures, then propose a scoped first release and review plan.' },
+    ],
+    ctaTitle: 'Make your next Laravel release useful, secure, and supportable.',
+    ctaText: 'Bring the workflow you want to improve. We will help map a practical first step and a delivery approach your team can follow.',
+};
 </script>
-<template><StaticSeoPageView :slug="slug" /></template>
+
+<template>
+    <StaticServiceLandingPage :page="page" />
+</template>

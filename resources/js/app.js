@@ -1,5 +1,6 @@
 import '../css/app.css';
 import '../css/static-pages.css';
+import '../css/landing-pages.css';
 import './bootstrap-vendor.js';
 
 import { createApp, h } from 'vue';
@@ -12,18 +13,27 @@ import { setupMetaPixel } from './meta-pixel.js';
 // (and therefore the first PageView) is captured.
 setupMetaPixel();
 
+const pages = import.meta.glob('./Pages/**/*.vue');
+
 createInertiaApp({
-    title: (title) => title ? `${title} | Infinicode System` : 'Infinicode System',
+    title: (title) => {
+        if (!title) {
+            return 'Infinicode System';
+        }
+
+        return title.endsWith(' | Infinicode System') ? title : `${title} | Infinicode System`;
+    },
     resolve: (name) => {
-        const pages = import.meta.glob('./Pages/**/*.vue', { eager: true });
-        const page = pages[`./Pages/${name}.vue`];
-        if (!page) {
+        const loadPage = pages[`./Pages/${name}.vue`];
+        if (!loadPage) {
             throw new Error(`Page not found: ${name}`);
         }
-        if (page.default.layout === undefined) {
-            page.default.layout = Layout;
-        }
-        return page;
+        return loadPage().then((page) => {
+            if (page.default.layout === undefined) {
+                page.default.layout = Layout;
+            }
+            return page;
+        });
     },
     setup({ el, App, props, plugin }) {
         createApp({ render: () => h(App, props) })

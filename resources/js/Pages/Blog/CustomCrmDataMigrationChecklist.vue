@@ -1,5 +1,53 @@
 <script setup>
-import StaticBlogPostView from '../../Components/StaticBlogPostView.vue';
-const slug='custom-crm-data-migration-checklist';
+import StaticBlogArticle from '../../Components/StaticBlogArticle.vue';
+
+const article = {
+    slug: 'custom-crm-data-migration-checklist',
+    category: 'CRM and ERP',
+    keyword: 'CRM data migration services',
+    title: 'How to Migrate Data into a Custom CRM Safely',
+    metaTitle: 'Custom CRM Data Migration Checklist | Infinicode System',
+    metaDescription: 'Plan CRM data inventory, mapping, cleanup, test migrations, reconciliation, cutover, and rollback.',
+    excerpt: 'Plan inventory, mapping, cleansing, test migration, reconciliation, cutover, and rollback for a safer CRM migration.',
+    publishedAt: '2026-11-25',
+    publishedLabel: 'November 25, 2026',
+    readTime: 8,
+    leadTitle: 'A safe migration is repeatable, reconciled, and reversible.',
+    intro: 'Moving records into a new CRM is a data-quality and business-continuity project. Plan the source inventory, field mapping, validation, user acceptance, and rollback before the final cutover date.',
+    visualTitle: 'Move CRM data with control',
+    visualSteps: ['Inventory and map', 'Test and reconcile', 'Cut over with rollback'],
+    takeaways: [
+        { title: 'Profile before cleaning', text: 'Understand duplicates, missing values, formats, and source ownership.' },
+        { title: 'Practice the migration', text: 'Run repeatable test loads and reconcile key totals before launch.' },
+        { title: 'Protect continuity', text: 'Freeze changes deliberately and keep a tested recovery route.' },
+    ],
+    sections: [
+        { heading: 'Inventory sources and data owners', body: 'List systems, spreadsheets, attachments, and integrations that contain CRM-relevant information. Identify who can explain each field and which source is authoritative.', detail: 'Include records that are archived or rarely used; they may still be subject to retention or customer-service requirements.', points: ['Count records and identify relationships', 'Record owners and update frequency', 'Find attachments, notes, and activity history'] },
+        { heading: 'Map fields and clean with business rules', body: 'Define how each source field maps to the new model, including transformations, defaults, and values that need review. Remove duplicates only with agreed match rules.', detail: 'Preserve a source identifier so migrated records can be traced and corrected if a mapping issue is found.', points: ['Define required and optional fields', 'Set duplicate and merge criteria', 'Flag uncertain values for owner review'] },
+        { heading: 'Run test migrations and reconcile', body: 'Use repeatable scripts or controlled import steps to migrate representative data in a test environment. Validate totals, relationships, permissions, and key user workflows.', detail: 'Reconciliation should compare more than row counts: check important values, ownership, history, and reports.', points: ['Test large and unusual records', 'Compare source and destination samples', 'Get business-owner acceptance before cutover'] },
+        { heading: 'Plan cutover and recovery', body: 'Choose a change freeze or synchronization strategy, assign owners, and define the go/no-go checks. Keep the old system read-only or available for an agreed period where appropriate.', points: ['Schedule user communication and training', 'Document rollback triggers and steps', 'Monitor exceptions after the first production load'] },
+    ],
+    actionTitle: 'Make migration readiness visible',
+    actionIntro: 'Do not schedule cutover until owners can verify the data and the team can recover safely.',
+    actions: [
+        { title: 'Coverage', text: 'Every source and relationship has an owner and mapping.' },
+        { title: 'Evidence', text: 'Test loads reconcile with source totals and user scenarios.' },
+        { title: 'Recovery', text: 'Rollback, support, and data correction procedures are understood.' },
+    ],
+    faqs: [
+        { question: 'Should we migrate every historical CRM record?', answer: 'Not automatically. Use legal, service, reporting, and operational needs to set a retention window; archive records that do not need to be active in the new system.' },
+        { question: 'How many test migrations are needed?', answer: 'Enough to make the process repeatable and prove reconciliation. Include representative records, corrected mappings, and a full-volume rehearsal when scale or cutover risk requires it.' },
+    ],
+    service: { href: '/services/crm-erp-development', label: 'Custom CRM and ERP development' },
+    related: [
+        { href: '/blog/crm-workflow-mapping-before-development', category: 'CRM and ERP', title: 'Map the workflow before CRM development' },
+        { href: '/blog/when-to-build-a-custom-crm', category: 'CRM and ERP', title: 'When to build a custom CRM' },
+    ],
+    ctaTitle: 'Move business data with a plan you can verify.',
+    ctaText: 'We can help profile the sources, define mapping rules, and rehearse a controlled CRM migration.',
+};
 </script>
-<template><StaticBlogPostView :slug="slug" /></template>
+
+<template>
+    <StaticBlogArticle :article="article" />
+</template>
