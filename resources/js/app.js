@@ -1,4 +1,5 @@
 import '../css/app.css';
+import '../css/static-pages.css';
 import './bootstrap-vendor.js';
 
 import { createApp, h } from 'vue';

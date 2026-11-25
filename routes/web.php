@@ -37,6 +37,23 @@ Route::get('/services', function () {
     ]);
 })->name('services');
 
+// Static SEO service pages
+$staticServiceComponents = array(
+    'laravel-development' => 'Services/LaravelDevelopment',
+    'react-native-development' => 'Services/ReactNativeDevelopment',
+    'crm-erp-development' => 'Services/CrmErpDevelopment',
+    'pos-inventory' => 'Services/PosInventory',
+    'ai-automation' => 'Services/AiAutomation',
+    'saas-development' => 'Services/SaasDevelopment',
+    'api-development' => 'Services/ApiDevelopment',
+    'custom-software' => 'Services/CustomSoftware',
+);
+foreach ($staticServiceComponents as $staticSlug => $staticComponent) {
+    Route::get("/services/{staticSlug}", function (string $staticSlug) use ($staticComponent) {
+        return Inertia::render($staticComponent, ['slug' => $staticSlug]);
+    })->where('staticSlug', implode('|', array_keys($staticServiceComponents)))->name('static-service-'.$staticSlug);
+}
+
 Route::get('/services/{slug}', function (string $slug) {
     return Inertia::render('ServiceDetailView', [
         'service' => SiteData::getService($slug),
@@ -89,24 +106,48 @@ Route::get('/academy/{slug}', function (string $slug) {
     ]);
 })->name('course-detail');
 
-// Blog
+// Static code-based blog
+$staticBlogComponents = array(
+    'choose-laravel-development-company' => 'Blog/ChooseLaravelDevelopmentCompany',
+    'laravel-saas-development-features' => 'Blog/LaravelSaasDevelopmentFeatures',
+    'when-to-build-a-custom-crm' => 'Blog/WhenToBuildACustomCrm',
+    'plan-secure-laravel-api-integration' => 'Blog/PlanSecureLaravelApiIntegration',
+    'laravel-codebase-handover-checklist' => 'Blog/LaravelCodebaseHandoverChecklist',
+    'prepare-before-hiring-react-native-team' => 'Blog/PrepareBeforeHiringReactNativeTeam',
+    'react-native-app-development-cost-drivers' => 'Blog/ReactNativeAppDevelopmentCostDrivers',
+    'react-native-vs-native-mobile-development' => 'Blog/ReactNativeVsNativeMobileDevelopment',
+    'react-native-app-qa-checklist' => 'Blog/ReactNativeAppQaChecklist',
+    'react-native-api-integration-guide' => 'Blog/ReactNativeApiIntegrationGuide',
+    'custom-crm-vs-off-the-shelf-crm' => 'Blog/CustomCrmVsOffTheShelfCrm',
+    'crm-workflow-mapping-before-development' => 'Blog/CrmWorkflowMappingBeforeDevelopment',
+    'erp-software-development-where-to-start' => 'Blog/ErpSoftwareDevelopmentWhereToStart',
+    'role-based-business-dashboard-development' => 'Blog/RoleBasedBusinessDashboardDevelopment',
+    'custom-crm-data-migration-checklist' => 'Blog/CustomCrmDataMigrationChecklist',
+    'custom-pos-vs-packaged-pos' => 'Blog/CustomPosVsPackagedPos',
+    'multi-location-inventory-system-planning' => 'Blog/MultiLocationInventorySystemPlanning',
+    'pos-and-inventory-integrations-guide' => 'Blog/PosAndInventoryIntegrationsGuide',
+    'replace-inventory-spreadsheets' => 'Blog/ReplaceInventorySpreadsheets',
+    'pos-software-discovery-checklist' => 'Blog/PosSoftwareDiscoveryChecklist',
+    'ai-automation-use-cases-business-operations' => 'Blog/AiAutomationUseCasesBusinessOperations',
+    'workflow-automation-vs-ai-assistant' => 'Blog/WorkflowAutomationVsAiAssistant',
+    'rag-implementation-internal-knowledge-base' => 'Blog/RagImplementationInternalKnowledgeBase',
+    'ai-document-processing-workflow' => 'Blog/AiDocumentProcessingWorkflow',
+    'add-ai-to-existing-laravel-application' => 'Blog/AddAiToExistingLaravelApplication',
+    'custom-software-discovery-workshop-guide' => 'Blog/CustomSoftwareDiscoveryWorkshopGuide',
+    'scalable-multi-tenant-saas-architecture' => 'Blog/ScalableMultiTenantSaasArchitecture',
+    'api-development-integration-planning' => 'Blog/ApiDevelopmentIntegrationPlanning',
+    'reduce-custom-software-project-risk' => 'Blog/ReduceCustomSoftwareProjectRisk',
+    'custom-software-launch-roadmap' => 'Blog/CustomSoftwareLaunchRoadmap',
+);
+
 Route::get('/blog', function () {
-    return Inertia::render('BlogView', [
-        'posts' => BlogContent::posts(),
-        'blogCategories' => BlogContent::categories(),
-        'featuredPost' => BlogContent::featuredPost(),
-    ]);
+    return Inertia::render('StaticBlogView');
 })->name('blog');
 
-Route::get('/blog/{slug}', function (string $slug) {
-    $post = BlogContent::find($slug);
-
-    return Inertia::render('BlogPostView', [
-        'post' => $post,
-        'relatedPosts' => BlogContent::relatedPosts($slug, 3),
-        'slug' => $slug,
-    ]);
-})->name('blog-post');
+Route::get('/blog/{slug}', function (string $slug) use ($staticBlogComponents) {
+    abort_unless(isset($staticBlogComponents[$slug]), 404);
+    return Inertia::render($staticBlogComponents[$slug], ['slug' => $slug]);
+})->where('slug', implode('|', array_keys($staticBlogComponents)))->name('blog-post');
 
 // Standalone secondary pages
 Route::get('/technologies', function () {
