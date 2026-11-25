@@ -1,4 +1,11 @@
 ﻿<template>
+<Head title="Custom Web, Mobile and AI Software Development | Infinicode System">
+  <meta head-key="description" name="description" content="Infinicode System builds custom web, mobile, SaaS, CRM, POS, API, and AI software for growing businesses." />
+  <link head-key="canonical" rel="canonical" href="https://infinicodesystem.site/" />
+  <meta head-key="og:title" property="og:title" content="Custom Web, Mobile and AI Software Development | Infinicode System" />
+  <meta head-key="og:description" property="og:description" content="Custom software engineering for web, mobile, SaaS, CRM, POS, API, and AI workflows." />
+  <meta head-key="og:type" property="og:type" content="website" />
+</Head>
   <div class="home">
     <!-- ===================== HERO ===================== -->
     <section class="hero">
@@ -279,6 +286,7 @@ Smart Software Real Growth
 </template>
 
 <script setup>
+import { Head } from '@inertiajs/vue3';
 import { Link } from '@inertiajs/vue3'
 import AppIcon from '@/Components/ui/AppIcon.vue'
 import SectionHeading from '@/Components/ui/SectionHeading.vue'
